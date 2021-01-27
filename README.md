@@ -15,7 +15,7 @@ As a software developer with focus in data projects your mission is to plan, dev
 
 ## The Challenge
 
-We are going to provide 2 data sources, A Postgres database and a CSV file.
+We are going to provide 2 data sources, a Postgres database and a CSV file.
 
 Your mission is to build a pipeline that extracts the data everyday from both sources and write the data first to local disk, and second to a database of your choice. For this challenge, the CSV file and the database will be static, but in any real world project, both data sources would be changing constantly.
 
@@ -38,7 +38,7 @@ The pipeline will look something like this:
 
 ![image](https://user-images.githubusercontent.com/49417424/105993225-e2aefb00-6084-11eb-96af-3ec3716b151a.png)
 
-Your final step is to be able to run a query that shows the orders and its details. The Orders are placed in a table called **orders** at the postgres database. The details are placed at the csv file provided, and each line has an **order_id** field pointing the **orders** table
+Your final step is to be able to run a query that shows the orders and its details. The Orders are placed in a table called **orders** at the postgres database. The order details are recorded in the csv file provided, and each line has an **order_id** field pointing the **orders** table
 
 How you are going to build this query will heavily depend on which database you choose and how you will load the data this database.
 
@@ -48,6 +48,7 @@ How you are going to build this query will heavily depend on which database you 
 
 - All tasks should be idempotent, you should be able the whole pipeline for a day and the result should be always the same
 - Step 2 depends on both tasks of step 1, so you should not be able to run step 2 for a day if the tasks from step 1 did not succeed
+- You should extract all the tables from the source database, it does not matter that you will not use most of them for the final step.
 - You should be able to tell where the pipeline failed clearly, so you know from which step you should rerun the pipeline
 - You have to provide clear instructions on how to run the whole pipeline. The easier the better.
 - You have to provide a csv or json file with the result of the final query at the final database.
