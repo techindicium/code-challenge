@@ -80,6 +80,8 @@ With docker compose installed simply run
 docker-compose up
 ```
 
+You can find the credentials at the docker-compose.yml file
+
 ## Final Instruction
 
 You can use any language you like, but keep in mind that we will have to run your pipeline, so choosing some languague or tooling that requires a complex environment might not be a good idea.
