@@ -48,6 +48,7 @@ How you are going to build this query will heavily depend on which database you 
 
 - All tasks should be idempotent, you should be able the whole pipeline for a day and the result should be always the same
 - Step 2 depends on both tasks of step 1, so you should not be able to run step 2 for a day if the tasks from step 1 did not succeed
+- You should extract all the tables from the source database, it does not matter that you will not use most of them for the final step.
 - You should be able to tell where the pipeline failed clearly, so you know from which step you should rerun the pipeline
 - You have to provide clear instructions on how to run the whole pipeline. The easier the better.
 - You have to provide a csv or json file with the result of the final query at the final database.
