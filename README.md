@@ -15,7 +15,7 @@ As a software developer with focus in data projects your mission is to plan, dev
 
 ## The Challenge
 
-We are going to provide 2 data sources, A Postgres database and a CSV file.
+We are going to provide 2 data sources, a Postgres database and a CSV file.
 
 Your mission is to build a pipeline that extracts the data everyday from both sources and write the data first to local disk, and second to a database of your choice. For this challenge, the CSV file and the database will be static, but in any real world project, both data sources would be changing constantly.
 
@@ -38,7 +38,7 @@ The pipeline will look something like this:
 
 ![image](https://user-images.githubusercontent.com/49417424/105993225-e2aefb00-6084-11eb-96af-3ec3716b151a.png)
 
-Your final step is to be able to run a query that shows the orders and its details. The Orders are placed in a table called **orders** at the postgres database. The details are placed at the csv file provided, and each line has an **order_id** field pointing the **orders** table
+Your final step is to be able to run a query that shows the orders and its details. The Orders are placed in a table called **orders** at the postgres database. The order details are recorded in the csv file provided, and each line has an **order_id** field pointing the **orders** table
 
 How you are going to build this query will heavily depend on which database you choose and how you will load the data this database.
 
