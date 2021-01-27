@@ -36,7 +36,7 @@ You are also free to decide the schema in the final database at the end of step 
 
 The pipeline will look something like this:
 
-[[diagram]]
+![image](https://user-images.githubusercontent.com/49417424/105993225-e2aefb00-6084-11eb-96af-3ec3716b151a.png)
 
 Your final step is to be able to run a query that shows the orders and its details. The Orders are placed in a table called **orders** at the postgres database. The details are placed at the csv file provided, and each line has an **order_id** field pointing the **orders** table
 
