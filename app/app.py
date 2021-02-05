@@ -1,25 +1,34 @@
-import time
-import random
+from psycopg2 import connect
+from psycopg2 import OperationalError
 
-from sqlalchemy import create_engine
+def database_connection():
+    try:
+        # Connect to an existing database
+        connection = connect(
+            host="db",
+            database="northwind",
+            user="northwind_user",
+            password="thewindisblowing")
 
-db_name = 'northwind'
-db_user = 'northwind_user'
-db_pass = 'thewindisblowing'
-db_host = 'db'
-db_port = '5432'
+        # Create a cursor to perform database operations
+        cursor = connection.cursor()
+        # Print PostgreSQL details
+        print("PostgreSQL server information")
+        print(connection.get_dsn_parameters(), "\n")
+        # Executing a SQL query
+        cursor.execute("SELECT * FROM Orders;")
+        # Fetch result
+        record = cursor.fetchone()
+        print("You are connected to - ", record, "\n")
 
-# Connecto to the database
-db_string = 'postgres://{}:{}@{}:{}/{}'.format(db_user, db_pass, db_host, db_port, db_name)
-db = create_engine(db_string)
-
-def functionCallToPrint(something):
-    # Insert a new number into the 'numbers' table.
-    return something
+    except (Exception, OperationalError) as error:
+        print("Error while connecting to PostgreSQL", error)
+    finally:
+        if (connection):
+            cursor.close()
+            connection.close()
+            print("PostgreSQL connection is closed")
 
 if __name__ == '__main__':
-    print('Application started')
-
-    while True:
-        print('thats something')
-        time.sleep(5)
+    print("App start..")
+    database_connection()
