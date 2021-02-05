@@ -1,0 +1,4 @@
+sqlalchemy
+psycopg2==2.8
+config
+configparser

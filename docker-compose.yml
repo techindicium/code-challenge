@@ -1,8 +1,16 @@
 version: '3'
 
 services:
+  app :
+    build: ./app/
+    depends_on:
+      - db
+    networks:
+      - app-network
   db:
+    container_name: pg_container
     image: postgres:12
+    restart: always
     environment:
       POSTGRES_DB: northwind
       POSTGRES_USER: northwind_user
@@ -12,3 +20,9 @@ services:
       - ./data/northwind.sql:/docker-entrypoint-initdb.d/northwind.sql
     ports:
       - 5432:5432
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
