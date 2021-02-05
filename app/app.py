@@ -1,99 +1,75 @@
-from psycopg2 import connect
-from psycopg2 import OperationalError
+import csv
+import os
+import psycopg2
 
-def database_connection():
+# File path and name.
+filePath = './data/postgres/'
+fileName = 'orders.csv'
+
+# Database connection variable.
+connect = None
+
+# Check if the file path exists.
+if os.path.exists(filePath):
+
     try:
-        # Connect to an existing database
-        connection = connect(
-            host="localhost:5432",
+
+        # Connect to database.
+        connect = psycopg2.connect(
+            host="0.0.0.0",
             database="northwind",
             user="northwind_user",
             password="thewindisblowing")
 
-        # Create a cursor to perform database operations
-        cursor = connection.cursor()
-        print("Successfully connected to database.")
-        get_tables(cursor)
+    except psycopg2.DatabaseError as e:
 
-    except (Exception, OperationalError) as error:
-        print("Error while connecting to PostgreSQL", error)
+        # Confirm unsuccessful connection and stop program execution.
+        print("Database connection unsuccessful.")
+        quit()
+
+    # Cursor to execute query.
+    cursor = connect.cursor()
+
+    # SQL to select data from the person table.
+    sqlSelect = \
+        "SELECT * \
+         FROM orders"
+
+    try:
+
+        # Execute query.
+        cursor.execute(sqlSelect)
+
+        # Fetch the data returned.
+        results = cursor.fetchall()
+
+        # Extract the table headers.
+        headers = [i[0] for i in cursor.description]
+
+        # Open CSV file for writing.
+        csvFile = csv.writer(open(filePath + fileName, 'w', newline=''),
+                             delimiter=',', lineterminator='\r\n',
+                             quoting=csv.QUOTE_ALL, escapechar='\\')
+
+        # Add the headers and data to the CSV file.
+        csvFile.writerow(headers)
+        csvFile.writerows(results)
+
+        # Message stating export successful.
+        print("Data export successful.")
+
+    except psycopg2.DatabaseError as e:
+
+        # Message stating export unsuccessful.
+        print("Data export unsuccessful.")
+        quit()
+
     finally:
-        if (connection):
-            cursor.close()
-            connection.close()
-            print("PostgreSQL connection is closed")
 
+        # Close database connection.
+        connect.close()
 
-def fetch_table_data(table_name):
-    # The connect() constructor creates a connection to the MySQL server and returns a MySQLConnection object.
-    cnx = connect(
-        host="0.0.0.0",
-        database="northwind",
-        user="northwind_user",
-        password="thewindisblowing")
+else:
 
-    cursor = cnx.cursor()
-    cursor.execute('select * from ' + table_name)
-
-    header = [row[0] for row in cursor.description]
-
-    rows = cursor.fetchall()
-
-    # Closing connection
-    cnx.close()
-
-    return header, rows
-
-
-def export(table_name):
-    header, rows = fetch_table_data(table_name)
-
-    # Create csv file
-    f = open(table_name + '.csv', 'w')
-
-    # Write header
-    f.write(','.join(header) + '\n')
-
-    for row in rows:
-        f.write(','.join(str(r) for r in row) + '\n')
-
-    f.close()
-    print(str(len(rows)) + ' rows written successfully to ' + f.name)
-#
-# def get_tables(cursor):
-#     try:
-#         cursor.execute("select table_name from information_schema.tables where table_schema='public'")
-#         tables_names = cursor.fetchall()
-#
-#         tables_names_array = []
-#         for tup in tables_names:
-#             for val in tup:
-#                 export(val)
-#
-#     except (Exception, OperationalError) as error:
-#         print("Error during get_tables(),", error, "\n")
-#     finally:
-#         print("Stopping..", "\n")
-
-# def export(header, rows):
-#     header, rows = get_tables(table_name)
-#
-#     # Create csv file
-#     f = open(table_name + '.csv', 'w')
-#
-#     # Write header
-#     f.write(','.join(header) + '\n')
-#
-#     for row in rows:
-#         f.write(','.join(str(r) for r in row) + '\n')
-#
-#     f.close()
-#     print(str(len(rows)) + ' rows written successfully to ' + f.name)
-
-
-if __name__ == '__main__':
-    print("App start..")
-
-    export('orders')
-
-    print("Extraction finished!")
+    # Message stating file path does not exist.
+    print("File path does not exist.")
