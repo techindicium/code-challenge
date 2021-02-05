@@ -12,14 +12,8 @@ def database_connection():
 
         # Create a cursor to perform database operations
         cursor = connection.cursor()
-        # Print PostgreSQL details
-        print("PostgreSQL server information")
-        print(connection.get_dsn_parameters(), "\n")
-        # Executing a SQL query
-        cursor.execute("SELECT * FROM Orders;")
-        # Fetch result
-        record = cursor.fetchone()
-        print("You are connected to - ", record, "\n")
+        print("Successfully connected to database.")
+        get_tables(cursor)
 
     except (Exception, OperationalError) as error:
         print("Error while connecting to PostgreSQL", error)
@@ -29,6 +23,24 @@ def database_connection():
             connection.close()
             print("PostgreSQL connection is closed")
 
+def get_tables(cursor):
+    try:
+        cursor.execute("select table_name from information_schema.tables where table_schema='public'")
+        tables_names = list(cursor.fetchall())
+
+        print("Transforming into a iterable...", "\n")
+
+        for val in tables_names:
+            print(val, "\n")
+
+    except (Exception, OperationalError) as error:
+        print("Error during get_tables(),", error, "\n")
+    finally:
+        print("Stopping..", "\n")
+
 if __name__ == '__main__':
     print("App start..")
+
     database_connection()
+
+    print("Extraction finished!")
