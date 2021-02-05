@@ -26,12 +26,14 @@ def database_connection():
 def get_tables(cursor):
     try:
         cursor.execute("select table_name from information_schema.tables where table_schema='public'")
-        tables_names = list(cursor.fetchall())
+        tables_names = cursor.fetchall()
 
-        print("Transforming into a iterable...", "\n")
+        tables_names_array = []
+        for tup in tables_names:
+            for val in tup:
+                tables_names_array.append(val)
 
-        for val in tables_names:
-            print(val, "\n")
+        return tables_names_array
 
     except (Exception, OperationalError) as error:
         print("Error during get_tables(),", error, "\n")
