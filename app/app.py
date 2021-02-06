@@ -2,11 +2,12 @@ import csv
 import os
 import psycopg2
 import datetime
+import shutil
 
 today_is_the_day = datetime.datetime.now()
 
 filePath = f'./data/postgres/{today_is_the_day.year}-{today_is_the_day.month}-{today_is_the_day.day}/'
-
+filePathCsv = f'./data/csv/{today_is_the_day.year}-{today_is_the_day.month}-{today_is_the_day.day}/'
 # Database connection variable.
 connect = None
 
@@ -60,7 +61,7 @@ if not os.path.exists(filePath):
             csvFile.writerows(results)
 
             # Message stating export successful.
-            print("Data export successful.")
+            print(f"Data export successful from {table_name}")
 
     except psycopg2.DatabaseError as e:
 
@@ -73,5 +74,11 @@ if not os.path.exists(filePath):
         # Close database connection.
         connect.close()
 
+
+elif not os.path.exists(filePathCsv):
+    os.mkdir(filePathCsv)
+    orders_details_bkp = shutil.copy2('./data/order_details.csv', filePathCsv)
+    print("Data export successful from order_details.csv")
+
 else:
-    filePath = f'./data/csv/{today_is_the_day.year}-{today_is_the_day.month}-{today_is_the_day.day}/'
+    print("You already have today's backup")
