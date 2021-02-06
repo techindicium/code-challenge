@@ -1,17 +1,22 @@
 import csv
 import os
 import psycopg2
+import datetime
+
+today_is_the_day = datetime.datetime.now()
 
 # File path and name.
-filePath = './data/postgres/'
-fileName = 'orders.csv'
+# filePath = './data/postgres/' + x.strftime('%m/%d/%Y')
+
+filePath = f'./data/postgres/{today_is_the_day.year}-{today_is_the_day.month}-{today_is_the_day.day}/'
+# fileName = 'orders.csv'
 
 # Database connection variable.
 connect = None
 
 # Check if the file path exists.
-if os.path.exists(filePath):
-
+if not os.path.exists(filePath):
+    os.mkdir(filePath)
     try:
 
         # Connect to database.
@@ -30,33 +35,36 @@ if os.path.exists(filePath):
     # Cursor to execute query.
     cursor = connect.cursor()
 
+    cursor.execute("select table_name from information_schema.tables where table_schema='public'")
+    query_response = cursor.fetchall()
+
+    table_names = [name[0] for name in query_response]
     # SQL to select data from the person table.
-    sqlSelect = \
-        "SELECT * \
-         FROM orders"
 
     try:
+        for table_name in table_names:
+            sqlSelect = f"SELECT * FROM {table_name}"
 
-        # Execute query.
-        cursor.execute(sqlSelect)
+            # Execute query.
+            cursor.execute(sqlSelect)
 
-        # Fetch the data returned.
-        results = cursor.fetchall()
+            # Fetch the data returned.
+            results = cursor.fetchall()
 
-        # Extract the table headers.
-        headers = [i[0] for i in cursor.description]
+            # Extract the table headers.
+            headers = [i[0] for i in cursor.description]
 
-        # Open CSV file for writing.
-        csvFile = csv.writer(open(filePath + fileName, 'w', newline=''),
-                             delimiter=',', lineterminator='\r\n',
-                             quoting=csv.QUOTE_ALL, escapechar='\\')
+            # Open CSV file for writing.
+            csvFile = csv.writer(open(f'{filePath}{table_name}.csv', 'w', newline=''),
+                                 delimiter=',', lineterminator='\r\n',
+                                 quoting=csv.QUOTE_ALL, escapechar='\\')
 
-        # Add the headers and data to the CSV file.
-        csvFile.writerow(headers)
-        csvFile.writerows(results)
+            # Add the headers and data to the CSV file.
+            csvFile.writerow(headers)
+            csvFile.writerows(results)
 
-        # Message stating export successful.
-        print("Data export successful.")
+            # Message stating export successful.
+            print("Data export successful.")
 
     except psycopg2.DatabaseError as e:
 
