@@ -5,11 +5,7 @@ import datetime
 
 today_is_the_day = datetime.datetime.now()
 
-# File path and name.
-# filePath = './data/postgres/' + x.strftime('%m/%d/%Y')
-
 filePath = f'./data/postgres/{today_is_the_day.year}-{today_is_the_day.month}-{today_is_the_day.day}/'
-# fileName = 'orders.csv'
 
 # Database connection variable.
 connect = None
@@ -57,7 +53,7 @@ if not os.path.exists(filePath):
             # Open CSV file for writing.
             csvFile = csv.writer(open(f'{filePath}{table_name}.csv', 'w', newline=''),
                                  delimiter=',', lineterminator='\r\n',
-                                 quoting=csv.QUOTE_ALL, escapechar='\\')
+                                 quoting=csv.QUOTE_NONE, escapechar='\\')
 
             # Add the headers and data to the CSV file.
             csvFile.writerow(headers)
@@ -78,6 +74,4 @@ if not os.path.exists(filePath):
         connect.close()
 
 else:
-
-    # Message stating file path does not exist.
-    print("File path does not exist.")
+    filePath = f'./data/csv/{today_is_the_day.year}-{today_is_the_day.month}-{today_is_the_day.day}/'
