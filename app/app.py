@@ -1,34 +1,84 @@
-from psycopg2 import connect
-from psycopg2 import OperationalError
+import csv
+import os
+import psycopg2
+import datetime
+import shutil
 
-def database_connection():
+today_is_the_day = datetime.datetime.now()
+
+filePath = f'./data/postgres/{today_is_the_day.year}-{today_is_the_day.month}-{today_is_the_day.day}/'
+filePathCsv = f'./data/csv/{today_is_the_day.year}-{today_is_the_day.month}-{today_is_the_day.day}/'
+# Database connection variable.
+connect = None
+
+# Check if the file path exists.
+if not os.path.exists(filePath):
+    os.mkdir(filePath)
     try:
-        # Connect to an existing database
-        connection = connect(
-            host="db",
+
+        # Connect to database.
+        connect = psycopg2.connect(
+            host="0.0.0.0",
             database="northwind",
             user="northwind_user",
             password="thewindisblowing")
 
-        # Create a cursor to perform database operations
-        cursor = connection.cursor()
-        # Print PostgreSQL details
-        print("PostgreSQL server information")
-        print(connection.get_dsn_parameters(), "\n")
-        # Executing a SQL query
-        cursor.execute("SELECT * FROM Orders;")
-        # Fetch result
-        record = cursor.fetchone()
-        print("You are connected to - ", record, "\n")
+    except psycopg2.DatabaseError as e:
 
-    except (Exception, OperationalError) as error:
-        print("Error while connecting to PostgreSQL", error)
+        # Confirm unsuccessful connection and stop program execution.
+        print("Database connection unsuccessful.")
+        quit()
+
+    # Cursor to execute query.
+    cursor = connect.cursor()
+
+    cursor.execute("select table_name from information_schema.tables where table_schema='public'")
+    query_response = cursor.fetchall()
+
+    table_names = [name[0] for name in query_response]
+    # SQL to select data from the person table.
+
+    try:
+        for table_name in table_names:
+            sqlSelect = f"SELECT * FROM {table_name}"
+
+            # Execute query.
+            cursor.execute(sqlSelect)
+
+            # Fetch the data returned.
+            results = cursor.fetchall()
+
+            # Extract the table headers.
+            headers = [i[0] for i in cursor.description]
+
+            # Open CSV file for writing.
+            csvFile = csv.writer(open(f'{filePath}{table_name}.csv', 'w', newline=''),
+                                 delimiter=',', lineterminator='\r\n',
+                                 quoting=csv.QUOTE_NONE, escapechar='\\')
+
+            # Add the headers and data to the CSV file.
+            csvFile.writerow(headers)
+            csvFile.writerows(results)
+
+            # Message stating export successful.
+            print(f"Data export successful from {table_name}")
+
+    except psycopg2.DatabaseError as e:
+
+        # Message stating export unsuccessful.
+        print("Data export unsuccessful.")
+        quit()
+
     finally:
-        if (connection):
-            cursor.close()
-            connection.close()
-            print("PostgreSQL connection is closed")
 
-if __name__ == '__main__':
-    print("App start..")
-    database_connection()
+        # Close database connection.
+        connect.close()
+
+
+elif not os.path.exists(filePathCsv):
+    os.mkdir(filePathCsv)
+    orders_details_bkp = shutil.copy2('./data/order_details.csv', filePathCsv)
+    print("Data export successful from order_details.csv")
+
+else:
+    print("You already have today's backup")
