@@ -70,7 +70,8 @@ if not os.path.exists(filePath):
         quit()
 
     finally:
-
+        print("Run app.py again to retrieve today's backup of order_details.csv" + "\n")
+        print("Each table of Northwind db are backup in this dir: data/postgres/[current-year-month-day]")
         # Close database connection.
         connect.close()
 
@@ -78,7 +79,8 @@ if not os.path.exists(filePath):
 elif not os.path.exists(filePathCsv):
     os.mkdir(filePathCsv)
     orders_details_bkp = shutil.copy2('./data/order_details.csv', filePathCsv)
-    print("Data export successful from order_details.csv")
-
+    print("Data export successful from order_details.csv" + "\n")
+    print("Your backup is at: data/csv/[current-year-month-day]")
 else:
-    print("You already have today's backup")
+    print("You already have today's backup" + "\n")
+    print("Starting services to join all latest backup to destination database..." + "\n")
