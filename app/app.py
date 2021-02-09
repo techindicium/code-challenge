@@ -77,7 +77,6 @@ if not os.path.exists(filePath):
 
 
 elif not os.path.exists(filePathCsv):
-    os.mkdir('csv')
     os.mkdir(filePathCsv)
     orders_details_bkp = shutil.copy2('./data/order_details.csv', filePathCsv)
     print("Data export successful from order_details.csv" + "\n")
