@@ -1,5 +1,6 @@
 ## The following instructions were made using a Linux distro command line.
-## You may have to adapt some commands if your're not.
+You may have to adapt some commands if your're not.
+--- 
 
 ## Considering that you have pre-installed these packages into your local machine:
 - Docker;
