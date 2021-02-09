@@ -1,5 +1,5 @@
-The following instructions were made using a Linux distro command line.
-You may have to adapt some commands if your're not.
+# The following instructions were made using a Linux distro command line.
+# You may have to adapt some commands if your're not.
 
 ## Considering that you have pre-installed these packages into your local machine:
 - Docker;
@@ -9,7 +9,7 @@ You may have to adapt some commands if your're not.
 
 ---
 
-#### Proceed with these instructions:
+# Proceed with these instructions:
 
 ## first of all, use git to clone the remote project into your local machine
 ### git clone https://github.com/RianBrug/data-pipeline-python-docker-psql.git
