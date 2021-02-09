@@ -2,7 +2,7 @@
 You may have to adapt some commands if your're not.
 --- 
 
-- Considering that you have pre-installed these packages into your local machine:
+# Considering that you have pre-installed these packages into your local machine:
 - Docker;
 - Git;
 - Python3;
@@ -21,8 +21,8 @@ You may have to adapt some commands if your're not.
 - To build up our PostgreSQL database, run:
 ### docker-compose up -d [using detached mode to keep using same terminal tab]
 
-- You need to install some libs into your local machine to use python3+psql,
-## into the project root directory, run:
+- You need to install some libs into your local machine to use python3+psql, 
+into the project root directory, run:
 ### pip3 install -r app/requirements.txt
 
  - Now that you have the libs installed, and your env params setup, run:
@@ -33,7 +33,6 @@ You may have to adapt some commands if your're not.
 ## - If some problem ocurred during docker usage, you may use this following cmds
 
 cleanup guide - use with caution, if you have other docker images running, you may have to use 'container image' to prevent stop/removing docker images from another project.
--
 
 ### docker stop `docker ps -qa`
 ### docker rm `docker ps -qa`
