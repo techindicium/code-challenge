@@ -30,9 +30,9 @@ into the project root directory, run:
 
 ---
 
-## - If some problem ocurred during docker usage, you may use this following cmds
+# If some problem ocurred during docker usage, you may use this following cmds
 
-cleanup guide - use with caution, if you have other docker images running, you may have to use 'container image' to prevent stop/removing docker images from another project.
+- cleanup guide - use with caution, if you have other docker images running, you may have to use 'container image' to prevent stop/removing docker images from another project.
 
 ### docker stop `docker ps -qa`
 ### docker rm `docker ps -qa`
