@@ -7,13 +7,13 @@ Execution of a specific pipeline for practical testing purposes.
 - [x] Stap 1
   - [x] Extract PG
   - [x] Bkp CSV
-- [ ] Stap 2
-    - [ ] Import data to BD
+- [x] Stap 2
+    - [x] Import data to BD
 ## dependencies
     -> Docker
     -> Python3
     -> Python-Pip3
 
 ## Executing commands
-    1º -> docker-composer up
-    2º -> ./app/app.py
+    1º -> docker-compose up
+    2º -> python3 RUN.py

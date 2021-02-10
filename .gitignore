@@ -1,3 +1,4 @@
 .vscode
 dbdata
 data/*
+app/__pycache__

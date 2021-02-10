@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from app.exportPg import extraction_pg, csv_bkp, importTo
+from app.dataApp import extraction_pg, csv_bkp, importTo
 
 if __name__ == "__main__":
     try:
@@ -12,15 +12,20 @@ if __name__ == "__main__":
         if _runPg == "Y" or _runPg == "YES":
             extraction_pg()
             print("--> Every bank table is a backup in the directory --> /bkp/pg/")
-        elif _runCsv == "Y" or _runCsv == "YES":
+        else:
+            print("Ok... not executed")
+
+        if _runCsv == "Y" or _runCsv == "YES":
             csv_bkp()
             print("-->The Backup --> /bkp/csv/")
-        elif _runImport == "Y" or _runImport == "YES":
+        else:
+            print("Ok... not executed")
+
+        if _runImport == "Y" or _runImport == "YES":
             importTo()
             print("-->The import was successful.")
+        else:
+            print("Ok... not executed")
 
     except ValueError:
         print("Error in app... Check the script and re-run.")
-
-    finally:
-        print("Successful Migration!")

@@ -57,11 +57,15 @@ def extraction_pg():
 
 # backup of CSV data
 def csv_bkp():
-    if not os.path.exists(_path):
-        os.makedirs(_path)
-        _bkp = st.copy2("data/order_details.csv", _path)
+    st.copy2("data/order_details.csv", _path)
 
 
 # import to bank
 def importTo():
-    os.system("./csvToMysql.sh")
+    try:
+        os.chmod("app/csvToMysql.sh", 0o777)
+        _code = os.popen("app/csvToMysql.sh").read()
+        return _code
+
+    except OSError as e:
+        return e
