@@ -28,7 +28,7 @@ def __validate_string_date(date):
 def extract(string_date):
     print('')
     print(" ------------- RUNNING FIRST STEP ---------------")
-    print(" - 1.1 Extracting PostGres tables data")
+    print(" - 1.1 Extracting Postgres tables data")
     
     # Extract data from postgres
     try:
@@ -75,10 +75,14 @@ def load(string_date):
 
 # Run the pipeline with options
 def main(argv):
+    # Initialize pipeline operation
     operation = 'all'
     string_date = ''
+
+    # Get args from command line to process all or step by step
     try:
-        opts, args = getopt.getopt(argv,"held")
+        opts, args = getopt.getopt(argv,"h:eld:")
+
     except getopt.GetoptError:
         print('main.py -e <extract data> | -l <load data>  -d <date YYYY-MM-DD>')
         sys.exit(2)
@@ -93,12 +97,12 @@ def main(argv):
             
             print('For all pipeline operantion just run "main.py", if "-d YYYY-MM-DD" was not defined, its will consider current date')
             sys.exit()
-        elif opt in ("-l", "--load"):
+        elif opt in ("-l", ""):
             operation = 'load'
-        elif opt in ("-e", "--extraction"):
+        elif opt in ("-e", ""):
             operation = 'extract'
-        elif opt in ("-d", "--date"):
-            string_date = argv[1]
+        elif opt in ("-d", ""):
+            string_date = arg
 
     # Validate string date from argv
     if string_date != '':
