@@ -34,6 +34,7 @@ def result(full_path):
     # Get a query result
     query = pd.read_sql(sql, connection)
 
+    # Checks if the full path was passed
     if full_path == '':
         full_path = 'query_result.csv'
 
