@@ -6,6 +6,7 @@ import sys
 from libs.extract.pg import extract as pg_extract
 from libs.extract.csv import extract as csv_extract
 from libs.load.csv import load as csv_load
+from libs.query.mysql import result
 
 # Error message
 def __error_message(message):
@@ -73,29 +74,56 @@ def load(string_date):
     print(" ------------- END OF SECOND STEP ---------------")
     print('')
 
+# Run final query result from destination database and exports to CSV
+def query_result():
+    # Load data from CSV to destination database
+    print('')
+    print(" ------------- RUNNING QUERY RESULT --------------")
+    print(" - 3.1 Running query from destination DB")
+
+    try:
+        result('query_result.csv')
+    except Exception as e:
+        __error_message('query result validation')
+        print(e)
+        sys.exit(1)
+    
+    print(" - 3.1 End of running query from destination DB")
+    print(" ------------- RUNNING QUERY RESULT ---------------")
+    print('')
+
 # Run the pipeline with options
 def main(argv):
     # Initialize pipeline operation
     operation = 'all'
     string_date = ''
+    export_result = False
 
     # Get args from command line to process all or step by step
     try:
-        opts, args = getopt.getopt(argv,"h:eld:")
+        opts, args = getopt.gnu_getopt(argv,"helqd:")
 
     except getopt.GetoptError:
-        print('main.py -e <extract data> | -l <load data>  -d <date YYYY-MM-DD>')
+        print('main.py -e <extract data> | -l <load data>  -d <date YYYY-MM-DD> | -q <query_result>')
         sys.exit(2)
 
     for opt, arg in opts:
         if opt == '-h':
-            print('For data Extraction:')
-            print('- Use "main.py -e" if you need a specific day add "-d YYYY-MM-DD"')
+            information_string = """
+            For data Extraction:
+            - Use "main.py -e" if you need a specific day add "-d YYYY-MM-DD".
+
+            For data Load:
+            - Use "main.py -l" if you need a specific day add "-d YYYY-MM-DD".
+
+            For generate a query result:
+            (this option only applies to the individual steps of load and extract, by default the file will always be generated)
+            - Use "main.py -q", the file will be exported to the main directory.
             
-            print('For data Load:')
-            print('- Use "main.py -l" if you need a specific day add "-d YYYY-MM-DD"')
+            For all pipeline operantions just run "main.py", if "-d YYYY-MM-DD" was not defined, its will consider current date.
+            """
+            print(information_string)
             
-            print('For all pipeline operantion just run "main.py", if "-d YYYY-MM-DD" was not defined, its will consider current date')
             sys.exit()
         elif opt in ("-l", ""):
             operation = 'load'
@@ -103,6 +131,8 @@ def main(argv):
             operation = 'extract'
         elif opt in ("-d", ""):
             string_date = arg
+        elif opt in ("-q", ""):
+            export_result = True
 
     # Validate string date from argv
     if string_date != '':
@@ -121,6 +151,11 @@ def main(argv):
     else:
         extract(string_date)
         load(string_date)
+        export_result = True
+    
+    # Exports result if it was defined
+    if export_result == True:
+        query_result()
     
     print(_header_delimiter)
     print("           Finished pipeline execution")
