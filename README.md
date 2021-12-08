@@ -17,6 +17,8 @@ The execution is divided into 3 steps:
 * [Pipenv](https://pipenv.pypa.io/)
 * [SqlAlchemy](https://sqlalchemy.org/)
 * [Pandas](https://pandas.pydata.org/)
+* [Docker](https://docker.com/)
+* [Mysql](https://mysql.com/)
 
 
 
@@ -33,24 +35,26 @@ The pipeline execution is done within the python virtual environment, we use the
   ```sh
   pip install pipenv
   ```
-* Configure connection, edit the file and configure it according to your source (pg) and destination (mysql) connection data in the dictionary "__connection_data"
+* Configure connection, edit the file and configure it according to your source (pg) and destination (mysql) connection data in the dictionary "connection_data" and CSV file name to import
   ```sh
-  ./libs/connections.py
+  ./libs/settings.py
     
-    __connection_data = {
-        'pg':{
+    connection_data = {
+        'source_pg':{
             'host': '127.0.0.1',
             'db': 'northwind',
             'user': 'northwind_user',
             'password':'thewindisblowing'
         },
-        'mysql':{
+        'target_mysql':{
             'host': '127.0.0.1',
             'db': 'northwind',
             'user': 'northwind_user',
             'password':'thewindisblowing'
         }
     }
+
+    csv_file_to_import = 'order_details'
   ```
 
 ### Installation
@@ -58,14 +62,20 @@ The pipeline execution is done within the python virtual environment, we use the
 _After installing pipenv, we configure the packages._
 
 1. Initialize the Postgres source database instance and the Mysql target database.
-2. Package installation
-   ```sh
+```sh
+   docker-compose up
+```
+2. Initialize the Mysql target database.
+(See [Mysql](https://dev.mysql.com/doc/mysql-getting-started/en/) Docs to configure your instance)
+
+3. Package installation
+```sh
    pipenv install
-   ```
-3. Initialize pipenv virtual environment
-   ```sh
+```
+4. Initialize pipenv virtual environment
+```sh
    pipenv shell
-   ```
+```
 
 
 
