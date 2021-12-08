@@ -59,7 +59,7 @@ The pipeline execution is done within the python virtual environment, we use the
 
 ### Installation
 
-_After installing pipenv, we configure the packages._
+_After installing pipenv we need to initialize the source and target database instances and install the packages (dependencies)._
 
 1. Initialize the Postgres source database instance and the Mysql target database.
 ```sh
