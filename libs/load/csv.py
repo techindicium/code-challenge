@@ -6,31 +6,56 @@ import os
 
 from datetime import datetime
 from libs.connections import connection
-from sqlalchemy import create_engine, engine, inspect, MetaData, Table
 
-# Create a connection engine used by pandas and sqlalchemy
+# This module load data to destination database 
+# from csv file
+
 def __conn():
-    connection_string = 'mysql://{user}:{password}@{host}:3306/{db}'.format(
-        host = connection['mysql']['host'],
-        db = connection['mysql']['db'],
-        user = connection['mysql']['user'],
-        password = connection['mysql']['password'],
-    )
+    """
+    Create a Mysql connection
 
-    return create_engine(connection_string, pool_recycle=3600)
+    Returns:
+        SqlAlchemy.Engine
+    """ 
 
-# Scan listed directory looking for CSV files recursively
-def __scan_directories(dir, ext):
+    return connection('mysql')
+
+def __scan_directories(dir_path, ext):
+    """
+    Scan listed directory looking for files by extension recursively
+
+    Args:
+        dir_path (str): Directory path to scan
+        ext (str): File extension we are looking for
+
+    Returns:
+        list: List of found files
+    """    
+
     file_list = []
-    for r, d, f in os.walk(dir):
-        for file in f:
+    for path, directories, files in os.walk(dir_path):
+        
+        # Iterate over file list
+        for file in files:
+        
+            # Filter by extension
             if ext in file:
-                file_list.append(os.path.join(r, file))
+                file_list.append(os.path.join(path, file))
     
     return file_list
 
-# Select only files from specific date
 def __list_files_to_import(path_list, date):
+    """
+    Select only files from specific date
+
+    Args:
+        path_list (list): A list with multiple paths to check
+        date (str): A string date with YYY-MM-DD format
+
+    Returns:
+        list: A list with a fullpath of CSV files
+    """    
+    
     files_to_import = []
     
     # Iterate over path_list
@@ -46,9 +71,17 @@ def __list_files_to_import(path_list, date):
     
     return files_to_import
 
-# Load data from CSV file to destination database
 def load(date = ''):
+    """
+    Load data from CSV file to destination database
 
+    Args:
+        date (str, optional): A date with YYYY-MM-DD format used in folder reference. Defaults to '' for current date.
+
+    Raises:
+        Exception: If a specific date does not exist within the folders
+    """    
+    
     # If date was not defined uses current
     if date == '':
         date = datetime.now().strftime("%Y-%m-%d")
@@ -68,6 +101,7 @@ def load(date = ''):
     
     # Import file to database
     for file in files_to_import:
+        
         # Get file name without path or extension
         file_name = os.path.splitext(os.path.basename(file))[0]
 

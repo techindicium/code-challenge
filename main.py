@@ -8,15 +8,26 @@ from libs.extract.csv import extract as csv_extract
 from libs.load.csv import load as csv_load
 from libs.query.mysql import result
 
-# Error message
 def __error_message(message):
+    """
+    Print an error message
+
+    Args:
+        message (str): Error message to be included
+    """    
     print('')
     print('** Error in {message} process **'.format(message = message))
     print('')
-    
 
-# Validate date string input
 def __validate_string_date(date):
+    """
+    Validate date string input with YYYY-MM-DD format
+
+    Args:
+        date (str): date string input with YYYY-MM-DD format
+    """    
+
+    # Create a regex pattern
     date_pattern = r"^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$"
     validator = re.compile(date_pattern)
 
@@ -25,8 +36,13 @@ def __validate_string_date(date):
         print("Please enter a valid date in format '-d YYYY-MM-DD'")
         sys.exit(1)
 
-# Run first step - data extraction
-def extract(string_date):
+def __extract(string_date):
+    """
+    Run first step - data extraction
+
+    Args:
+        string_date (str): String date with YYYY-MM-DD format to be used in directory folder creation
+    """    
     print('')
     print(" ------------- RUNNING FIRST STEP ---------------")
     print(" - 1.1 Extracting Postgres tables data")
@@ -34,17 +50,16 @@ def extract(string_date):
     # Extract data from postgres
     try:
         pg_extract(string_date)
+
     except Exception as e:
-        __error_message('PostGres Extraction')
+        __error_message('Postgres Extraction')
         print(e)
         sys.exit(1)
     
     print(" - 1.1 End Postgres extraction")
+    print(" - 1.2 Extracting CSV file data")
 
     # Extract data from CSV file
-    print(" - 1.2 Extracting CSV file data")
-    
-    # Extract data from postgres
     try:
         csv_extract(string_date)
     except Exception as e:
@@ -56,8 +71,14 @@ def extract(string_date):
     print(" ------------- END OF FIRST STEP ---------------")
     print('')
 
-# Run second step - data loading
-def load(string_date):
+def __load(string_date):
+    """
+    Run second step - data loading
+
+    Args:
+        string_date (str): String date with YYYY-MM-DD format to be used in directory scanning
+    """    
+
     # Load data from CSV to destination database
     print('')
     print(" ------------- RUNNING SECOND STEP --------------")
@@ -74,8 +95,12 @@ def load(string_date):
     print(" ------------- END OF SECOND STEP ---------------")
     print('')
 
-# Run final query result from destination database and exports to CSV
 def query_result():
+    """
+    Run final query result from destination database and exports to CSV
+
+    """
+
     # Load data from CSV to destination database
     print('')
     print(" ------------- RUNNING QUERY RESULT --------------")
@@ -92,8 +117,14 @@ def query_result():
     print(" ------------- RUNNING QUERY RESULT ---------------")
     print('')
 
-# Run the pipeline with options
 def main(argv):
+    """
+    Run the pipeline with options
+
+    Args:
+        argv (str): String of arguments passed by the function call
+    """
+
     # Initialize pipeline operation
     operation = 'all'
     string_date = ''
@@ -101,13 +132,16 @@ def main(argv):
 
     # Get args from command line to process all or step by step
     try:
-        opts, args = getopt.gnu_getopt(argv,"helqd:")
+        opts, args = getopt.gnu_getopt(argv, "helqd:")
 
     except getopt.GetoptError:
-        print('main.py -e <extract data> | -l <load data>  -d <date YYYY-MM-DD> | -q <query_result>')
+        print('main.py -e <extract data>  -l <load data>  -d <date YYYY-MM-DD> -q <query_result>')
         sys.exit(2)
 
+    # Iterate over opts list
     for opt, arg in opts:
+        
+        # If help option was choosed
         if opt == '-h':
             information_string = """
             For data Extraction:
@@ -122,15 +156,23 @@ def main(argv):
             
             For all pipeline operantions just run "main.py", if "-d YYYY-MM-DD" was not defined, its will consider current date.
             """
+
             print(information_string)
-            
             sys.exit()
+        
+        # If load option was choosed
         elif opt in ("-l", ""):
             operation = 'load'
+        
+        # If extraction option was choosed
         elif opt in ("-e", ""):
             operation = 'extract'
+        
+        # If specific date was defined
         elif opt in ("-d", ""):
             string_date = arg
+        
+        # If validation query was choosed 
         elif opt in ("-q", ""):
             export_result = True
 
@@ -143,14 +185,19 @@ def main(argv):
     print('           Starting pipeline exection')
     print(_header_delimiter)
     
-    # Run isolated step or full pipeline
+    # Run isolated step or full pipeline:
+    # - Load operation
     if operation == 'load':
-        load(string_date)
+        __load(string_date)
+    
+    # - Extraction operation
     elif operation == 'extract':
-        extract(string_date)
+        __extract(string_date)
+    
+    # - Full pipeline execution
     else:
-        extract(string_date)
-        load(string_date)
+        __extract(string_date)
+        __load(string_date)
         export_result = True
     
     # Exports result if it was defined

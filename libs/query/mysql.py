@@ -6,21 +6,31 @@ import os
 
 from datetime import datetime
 from libs.connections import connection
-from sqlalchemy import create_engine
 
-# Create a connection engine used by pandas and sqlalchemy
+# This module is used to make data validation query
+
 def __conn():
-    connection_string = 'mysql://{user}:{password}@{host}:3306/{db}'.format(
-        host = connection['mysql']['host'],
-        db = connection['mysql']['db'],
-        user = connection['mysql']['user'],
-        password = connection['mysql']['password'],
-    )
+    """
+    Create a Mysql connection engine
 
-    return create_engine(connection_string, pool_recycle=3600)
+    Returns:
+        SqlAlchemy.Engine
+    """
+     
+    return connection('mysql')
 
-# Generate a query to load data from "orders" and "orders_details"
 def result(full_path):
+    """
+    Generate a query to load data from "orders" and "orders_details"
+
+    Args:
+        full_path (string): The path of file
+
+    Raises:
+        Exception: If not have data raise an exception to alert
+    """
+
+    # Create a query to return 'orders' and 'order_detail' joined data
     sql = """
         SELECT
             *
@@ -28,6 +38,7 @@ def result(full_path):
             orders AS ord 
             INNER JOIN order_details AS dtl ON (ord.order_id = dtl.order_id)
     """
+
     # Initialize the connection
     connection = __conn()
 

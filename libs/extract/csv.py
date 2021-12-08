@@ -5,11 +5,17 @@ import os
 
 from datetime import datetime
 
-# Extracts data from csv file
-# Acepts date format YYYY-MM-DD
-def extract(date = ''):
+# This module is used to extract data from csv files
 
-    #If date was not defined uses current
+def extract(date = ''):
+    """
+    Extracts data from csv file
+
+    Args:
+        date (str, optional): date in format YYYY-MM-DD. Defaults to '' current date.
+    """    
+
+    # If date is not set use current date
     if date == '':
         date = datetime.now().strftime("%Y-%m-%d")
 

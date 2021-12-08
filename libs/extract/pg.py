@@ -7,21 +7,28 @@ import warnings
 
 from datetime import datetime
 from libs.connections import connection
-from sqlalchemy import create_engine, engine, inspect, MetaData, Table, exc as sa_exc
+from sqlalchemy import inspect, MetaData, Table, exc as sa_exc
 
-# Create a connection engine used by pandas and sqlalchemy
+# This module extract data from Postgres database
+
 def __conn():
-    connection_string = 'postgresql://{user}:{password}@{host}:5432/{db}'.format(
-        host = connection['pg']['host'],
-        db = connection['pg']['db'],
-        user = connection['pg']['user'],
-        password = connection['pg']['password'],
-    )
+    """
+    Create a Postgres connection engine
 
-    return create_engine(connection_string, pool_recycle=3600)
+    Returns:
+        SqlAlchemy.Engine
+    """    
 
-# List all tables in database
+    return connection('pg')
+
 def __list_tables():
+    """
+    List all tables in database
+
+    Returns:
+        list: A list of table names from database
+    """    
+    
     # Initialize the connection engine
     engine = __conn()
     
@@ -31,15 +38,24 @@ def __list_tables():
     # Get table object list
     tables = inspector.get_table_names()
 
-    # Make list of names
+    # Make list of table names
     table_list = []
     for table in tables:
         table_list.append(table)
 
     return table_list
 
-# List columns names from table
 def __list_column_name(table):
+    """
+    List columns names from table
+
+    Args:
+        table (str): Table name to check
+
+    Returns:
+        list: A list of column names
+    """
+    
     # Initialize the connection engine
     engine = __conn()
 
@@ -64,14 +80,18 @@ def __list_column_name(table):
     return columns_list
 
 
-# Extracts data from database from PostGres
-# Acepts date format YYYY-MM-DD
 def extract(date = ''):
+    """
+    Extracts data from Postgres to csv file 
 
-    #If date was not defined uses current
+    Args:
+        date (str, optional): Date in format YYYY-MM-DD. Defaults to '' for current date.
+    """    
+    
+    # If date was not defined uses current
     if date == '':
         date = datetime.now().strftime("%Y-%m-%d")
-
+    
     # Initialize connection engine
     connection = __conn()
 
