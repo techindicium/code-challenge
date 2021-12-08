@@ -107,7 +107,10 @@ def query_result():
     print(" - 3.1 Running query from destination DB")
 
     try:
-        result('query_result.csv')
+        query_result_file_name = 'query_result.csv'
+        result(query_result_file_name)
+        print(' - 3.1 The file "./{file_name}" was exported '.format(file_name = query_result_file_name))
+
     except Exception as e:
         __error_message('query result validation')
         print(e)
