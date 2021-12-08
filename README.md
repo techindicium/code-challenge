@@ -33,6 +33,25 @@ The pipeline execution is done within the python virtual environment, we use the
   ```sh
   pip install pipenv
   ```
+* Configure connection, edit the file and configure it according to your source (pg) and destination (mysql) connection data in the dictionary "__connection_data"
+  ```sh
+  ./libs/connections.py
+    
+    __connection_data = {
+        'pg':{
+            'host': '127.0.0.1',
+            'db': 'northwind',
+            'user': 'northwind_user',
+            'password':'thewindisblowing'
+        },
+        'mysql':{
+            'host': '127.0.0.1',
+            'db': 'northwind',
+            'user': 'northwind_user',
+            'password':'thewindisblowing'
+        }
+    }
+  ```
 
 ### Installation
 
