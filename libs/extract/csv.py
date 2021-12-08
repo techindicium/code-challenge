@@ -4,6 +4,7 @@ import pandas as pd
 import os
 
 from datetime import datetime
+from ..settings import csv_file_to_import
 
 # This module is used to extract data from csv files
 
@@ -20,7 +21,7 @@ def extract(date = ''):
         date = datetime.now().strftime("%Y-%m-%d")
 
     # Define origin path
-    origin_file_name = 'order_details'
+    origin_file_name = csv_file_to_import
     origin_path = 'data/{file}.csv'.format(file = origin_file_name)
 
     # Create a path and file string

@@ -19,7 +19,7 @@ def __conn():
         SqlAlchemy.Engine
     """    
 
-    return connection('pg')
+    return connection('source_pg')
 
 def __list_tables():
     """

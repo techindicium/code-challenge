@@ -16,8 +16,8 @@ def __conn():
     Returns:
         SqlAlchemy.Engine
     """
-     
-    return connection('mysql')
+
+    return connection('target_mysql')
 
 def result(full_path):
     """

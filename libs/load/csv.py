@@ -18,7 +18,7 @@ def __conn():
         SqlAlchemy.Engine
     """ 
 
-    return connection('mysql')
+    return connection('target_mysql')
 
 def __scan_directories(dir_path, ext):
     """
