@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import pandas as pd
 import psycopg2
 import yaml
@@ -63,7 +61,7 @@ with psycopg2.connect(credentials) as conn:
             query = f"SELECT * FROM {table_name}"
             table = pd.read_sql(query, conn)
             output_name = f'''
-            /data/postgres/{extraction_date}/{table_name}.csv
+            /data/postgres/{execution_date}/{table_name}.csv
             '''
             table.to_csv(output_name)
 
@@ -73,6 +71,6 @@ conn.close() # contexts do not close the connection, only commit or
 # extract data from the provided csv file
 order_details = pd.read_csv(ORDER_DETAILS_PATH)
 order_details_output_path = f'''
-/data/csv/{extraction_date}/order_details.csv
+/data/csv/{execution_date}/order_details.csv
 '''
 order_details.to_csv(order_details_output_path)
