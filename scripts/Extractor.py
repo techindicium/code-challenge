@@ -20,9 +20,9 @@ def get_db_credentials(file_path):
     db_service = data['services']['db']
     port = db_service['ports'][0].split(':')[0]
     environment = db_service['environment']
-    credentials['dbname'] = environment['POSTGRES_DB'],
-    credentials['user'] = environment['POSTGRES_USER'],
-    credentials['password'] = environment['POSTGRES_PASSWORD'],
+    credentials['dbname'] = environment['POSTGRES_DB'][0],
+    credentials['user'] = environment['POSTGRES_USER'][0],
+    credentials['password'] = environment['POSTGRES_PASSWORD'][0],
     credentials['port'] = port
     return credentials
 
