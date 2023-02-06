@@ -40,10 +40,10 @@ def get_table_names(connection):
         query = '''
         SELECT table_name
         FROM information_schema.tables
-        WHERE table_type='BASE_TABLE' AND table_schema='public'
+        WHERE table_schema = 'public'
         '''
         cursor.execute(query)
-        table_names = [row[0] for row in cursor]
+        table_names = list(map(lambda x: x[0], cursor.fetchall()))
     return table_names
 
 # Get the extraction date and create a folder to store respective data
@@ -72,11 +72,12 @@ if not os.path.exists(csv_folder_path):
 credentials = get_db_credentials(CREDENTIALS_PATH)
 with psycopg2.connect(**credentials) as conn:
     table_names = get_table_names(conn)
+    print(table_names)
+    sys.exit()
     for table_name in table_names:
         with conn.cursor() as cursor:
             query = f"SELECT * FROM {table_name}"
             table = pd.read_sql(query, conn)
-            
             output_name = f'{date_folder_path}/{table_name}.csv'
             table.to_csv(output_name)
 
