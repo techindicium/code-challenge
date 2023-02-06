@@ -21,7 +21,7 @@ def get_db_credentials(file_path):
     host = db_service['ports'][0].split(':')[0]
     return f'''
     host={host},
-    database={environment['POSTGRES_DB']},
+    dbname={environment['POSTGRES_DB']},
     user={environment['POSTGRES_USER']},
     password={environment['POSTGRES_PASSWORD']}
     '''
