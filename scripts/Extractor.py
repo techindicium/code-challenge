@@ -14,16 +14,21 @@ def get_db_credentials(file_path):
         Gets the necessary parameters to connect to the provided 
         database from a yaml file.
     '''
-    credentials = {'host': 'localhost'}
     with open(file_path) as f:
         data = yaml.load(f, Loader=yaml.FullLoader)
     db_service = data['services']['db']
     port = db_service['ports'][0].split(':')[0]
     environment = db_service['environment']
-    credentials['dbname'] = environment['POSTGRES_DB'][0],
-    credentials['user'] = environment['POSTGRES_USER'][0],
-    credentials['password'] = environment['POSTGRES_PASSWORD'][0],
-    credentials['port'] = port
+    dbname = environment['POSTGRES_DB']
+    user = environment['POSTGRES_USER']
+    password = environment['POSTGRES_PASSWORD']
+    credentials = {
+        'host': 'localhost',
+        'dbname': dbname,
+        'user': user,
+        'password': password,
+        'port': port
+    }
     return credentials
 
 def get_table_names(connection):
