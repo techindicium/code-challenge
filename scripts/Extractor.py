@@ -4,6 +4,7 @@ import pandas as pd
 import psycopg2
 import yaml
 import sys
+import os
 from datetime import datetime
 
 CREDENTIALS_PATH = 'docker-compose.yml'
@@ -45,7 +46,7 @@ def get_table_names(connection):
         table_names = [row[0] for row in cursor]
     return table_names
 
-# Get the extraction date
+# Get the extraction date and create a folder to store respective data
 if len(sys.argv) == 1:
     extraction_date = datetime.today()
 else:
@@ -57,6 +58,13 @@ else:
         all to extract today's data.
         ''')
         sys.exit(1)
+date_folder_path = f'''
+            data/postgres/{extraction_date.strftime('%Y-%m-%d')}
+            '''
+if not os.path.exists(tab):
+    os.makedirs(date_folder_path)
+	
+ 
 
 # extract data from the postgres database
 credentials = get_db_credentials(CREDENTIALS_PATH)
@@ -66,9 +74,9 @@ with psycopg2.connect(**credentials) as conn:
         with conn.cursor() as cursor:
             query = f"SELECT * FROM {table_name}"
             table = pd.read_sql(query, conn)
+            
             output_name = f'''
-            data/postgres/{extraction_date.strftime('%Y-%m-%d')}/
-            {table_name}.csv
+            {date_folder_path}/{table_name}.csv
             '''
             table.to_csv(output_name)
 
@@ -78,6 +86,6 @@ conn.close() # contexts do not close the connection, only commit or
 # extract data from the provided csv file
 order_details = pd.read_csv(ORDER_DETAILS_PATH)
 order_details_output_path = f'''
-data/csv/{extraction_date.strftime('%Y-%m-%d')}/order_details.csv
+{date_folder_path}/order_details.csv
 '''
 order_details.to_csv(order_details_output_path)
