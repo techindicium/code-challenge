@@ -7,7 +7,7 @@ import sys
 from datetime import datetime
 
 CREDENTIALS_PATH = 'docker-compose.yml'
-ORDER_DETAILS_PATH = '/data/order_details.csv'
+ORDER_DETAILS_PATH = 'data/order_details.csv'
 
 def get_db_credentials(file_path):
     '''
@@ -67,7 +67,7 @@ with psycopg2.connect(**credentials) as conn:
             query = f"SELECT * FROM {table_name}"
             table = pd.read_sql(query, conn)
             output_name = f'''
-            /data/postgres/{extraction_date}/{table_name}.csv
+            data/postgres/{extraction_date}/{table_name}.csv
             '''
             table.to_csv(output_name)
 
@@ -77,6 +77,6 @@ conn.close() # contexts do not close the connection, only commit or
 # extract data from the provided csv file
 order_details = pd.read_csv(ORDER_DETAILS_PATH)
 order_details_output_path = f'''
-/data/csv/{extraction_date}/order_details.csv
+data/csv/{extraction_date}/order_details.csv
 '''
 order_details.to_csv(order_details_output_path)
