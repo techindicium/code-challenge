@@ -61,7 +61,7 @@ else:
 date_folder_path = f'''
             data/postgres/{extraction_date.strftime('%Y-%m-%d')}
             '''
-if not os.path.exists(tab):
+if not os.path.exists(date_folder_path):
     os.makedirs(date_folder_path)
 	
  
