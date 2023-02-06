@@ -18,12 +18,13 @@ def get_db_credentials(file_path):
         data = yaml.load(f, Loader=yaml.FullLoader)
     db_service = data['services']['db']
     environment = db_service['environment']
-    host = db_service['ports'][0].split(':')[0]
+    port = db_service['ports'][0].split(':')[0]
     return f'''
-    host={host},
+    host='localhost',
     dbname={environment['POSTGRES_DB']},
     user={environment['POSTGRES_USER']},
     password={environment['POSTGRES_PASSWORD']}
+    'port'={port}
     '''
 
 def get_table_names(connection):
