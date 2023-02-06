@@ -24,7 +24,7 @@ def get_db_credentials(file_path):
     dbname={environment['POSTGRES_DB']},
     user={environment['POSTGRES_USER']},
     password={environment['POSTGRES_PASSWORD']},
-    'port'={port}
+    port={port}
     '''
 
 def get_table_names(connection):
