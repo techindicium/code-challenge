@@ -88,3 +88,21 @@ You can use any language you like, but keep in mind that we will have to run you
 You are free to use opensource libs and frameworks, but also keep in mind that **you have to write code**. Point and click tools are not allowed.
 
 Thank you for participating!
+
+# Solution
+
+- We will use Python as the programming language. Python has a lot of libraries and tools that make it easy to work with different data sources, including PostgreSQL and CSV files.
+
+- We will use the Pandas library to extract data from both the PostgreSQL database and the CSV file. Pandas provides a convenient way to load and manipulate data, making it an ideal choice for this task.
+
+- For writing the data to the local disk, we can use the Pandas to_csv method, which allows us to save the data to a CSV file. We can specify the file path using the date of the execution as part of the file name. For example, we can save the PostgreSQL data to the following file path: /data/postgres/{table}/{execution_date}/file.csv, and the CSV data to the following file path: /data/csv/{execution_date}/file.csv
+
+- For the final step, we can use the SQLAlchemy library to load the data into a database of our choice. For this task, we will use PostgreSQL, as it is a well-supported and widely used database that can handle large amounts of data. We will use the SQLAlchemy's ORM (Object-Relational Mapping) to define the database tables, map the Pandas dataframes to those tables, and then use the SQLAlchemy's engine to perform the actual database insertions.
+
+- To make the pipeline idempotent, we will add a check in the code to see if the data for a particular day has already been processed and saved to the database. If the data exists, we can skip the processing for that day.
+
+- To make it easy to run the pipeline, we will create a shell script that sets up the necessary environment variables and then runs the Python script.
+
+- Finally, we will create a CSV file with the result of the final query, which shows the orders and their details.
+
+This solution should satisfy all the requirements specified in the challenge and will be easy to maintain and extend in the future.
