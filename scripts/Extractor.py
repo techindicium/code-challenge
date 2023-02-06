@@ -58,11 +58,13 @@ else:
         all to extract today's data.
         ''')
         sys.exit(1)
-date_folder_path = f'''
-            data/postgres/{extraction_date.strftime('%Y-%m-%d')}
-            '''
+extraction_date_str = extraction_date.strftime('%Y-%m-%d')
+date_folder_path = f'data/postgres/{extraction_date_str}'
+csv_folder_path = f'data/csv/{extraction_date_str}'
 if not os.path.exists(date_folder_path):
     os.makedirs(date_folder_path)
+if not os.path.exists(csv_folder_path):
+    os.makedirs(csv_folder_path)
 	
  
 
@@ -75,9 +77,7 @@ with psycopg2.connect(**credentials) as conn:
             query = f"SELECT * FROM {table_name}"
             table = pd.read_sql(query, conn)
             
-            output_name = f'''
-            {date_folder_path}/{table_name}.csv
-            '''
+            output_name = f'{date_folder_path}/{table_name}.csv'
             table.to_csv(output_name)
 
 conn.close() # contexts do not close the connection, only commit or
@@ -85,7 +85,5 @@ conn.close() # contexts do not close the connection, only commit or
 
 # extract data from the provided csv file
 order_details = pd.read_csv(ORDER_DETAILS_PATH)
-order_details_output_path = f'''
-{date_folder_path}/order_details.csv
-'''
-order_details.to_csv(order_details_output_path)
+csv_output_path = f'{csv_folder_path}/order_details.csv'
+order_details.to_csv(csv_output_path)
