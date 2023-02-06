@@ -23,7 +23,7 @@ def get_db_credentials(file_path):
     host='localhost',
     dbname={environment['POSTGRES_DB']},
     user={environment['POSTGRES_USER']},
-    password={environment['POSTGRES_PASSWORD']}
+    password={environment['POSTGRES_PASSWORD']},
     'port'={port}
     '''
 
