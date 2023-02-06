@@ -14,17 +14,17 @@ def get_db_credentials(file_path):
         Gets the necessary parameters to connect to the provided 
         database from a yaml file.
     '''
-    credentials = {}
     with open(file_path) as f:
         data = yaml.load(f, Loader=yaml.FullLoader)
     db_service = data['services']['db']
     environment = db_service['environment']
     host = db_service['ports'][0].split(':')[0]
-    credentials['host'] = host
-    credentials['database'] = environment['POSTGRES_DB']
-    credentials['user'] = environment['POSTGRES_USER']
-    credentials['password'] = environment['POSTGRES_PASSWORD']   
-    return credentials
+    return f'''
+    host={host},
+    database={environment['POSTGRES_DB']},
+    user={environment['POSTGRES_USER']},
+    password={environment['POSTGRES_PASSWORD']}
+    '''
 
 def get_table_names(connection):
     '''
@@ -54,7 +54,8 @@ else:
         sys.exit(1)
 
 # extract data from the postgres database
-with psycopg2.connect(get_db_credentials(CREDENTIALS_PATH)) as conn:
+credentials = get_db_credentials(CREDENTIALS_PATH)
+with psycopg2.connect(credentials) as conn:
     table_names = get_table_names(conn)
     for table_name in table_names:
         with conn.cursor() as cursor:
