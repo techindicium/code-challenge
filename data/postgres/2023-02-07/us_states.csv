@@ -1,0 +1,52 @@
+,state_id,state_name,state_abbr,state_region
+0,1,Alabama,AL,south
+1,2,Alaska,AK,north
+2,3,Arizona,AZ,west
+3,4,Arkansas,AR,south
+4,5,California,CA,west
+5,6,Colorado,CO,west
+6,7,Connecticut,CT,east
+7,8,Delaware,DE,east
+8,9,District of Columbia,DC,east
+9,10,Florida,FL,south
+10,11,Georgia,GA,south
+11,12,Hawaii,HI,west
+12,13,Idaho,ID,midwest
+13,14,Illinois,IL,midwest
+14,15,Indiana,IN,midwest
+15,16,Iowa,IO,midwest
+16,17,Kansas,KS,midwest
+17,18,Kentucky,KY,south
+18,19,Louisiana,LA,south
+19,20,Maine,ME,north
+20,21,Maryland,MD,east
+21,22,Massachusetts,MA,north
+22,23,Michigan,MI,north
+23,24,Minnesota,MN,north
+24,25,Mississippi,MS,south
+25,26,Missouri,MO,south
+26,27,Montana,MT,west
+27,28,Nebraska,NE,midwest
+28,29,Nevada,NV,west
+29,30,New Hampshire,NH,east
+30,31,New Jersey,NJ,east
+31,32,New Mexico,NM,west
+32,33,New York,NY,east
+33,34,North Carolina,NC,east
+34,35,North Dakota,ND,midwest
+35,36,Ohio,OH,midwest
+36,37,Oklahoma,OK,midwest
+37,38,Oregon,OR,west
+38,39,Pennsylvania,PA,east
+39,40,Rhode Island,RI,east
+40,41,South Carolina,SC,east
+41,42,South Dakota,SD,midwest
+42,43,Tennessee,TN,midwest
+43,44,Texas,TX,west
+44,45,Utah,UT,west
+45,46,Vermont,VT,east
+46,47,Virginia,VA,east
+47,48,Washington,WA,west
+48,49,West Virginia,WV,south
+49,50,Wisconsin,WI,midwest
+50,51,Wyoming,WY,west
