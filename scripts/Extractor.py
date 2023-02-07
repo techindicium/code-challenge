@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
 import pandas as pd
-import psycopg2
+from sqlalchemy import create_engine, inspect
+from sqlalchemy import MetaData, Table, Column, String
 import yaml
 import sys
 import os
@@ -32,20 +33,6 @@ def get_db_credentials(file_path):
     }
     return credentials
 
-def get_table_names(connection):
-    '''
-        Gets the names of all tables in the connected postgres database.
-    ''' 
-    with connection.cursor() as cursor:
-        query = '''
-        SELECT table_name
-        FROM information_schema.tables
-        WHERE table_schema = 'public'
-        '''
-        cursor.execute(query)
-        table_names = list(map(lambda x: x[0], cursor.fetchall()))
-    return table_names
-
 # Get the extraction date and create a folder to store respective data
 if len(sys.argv) == 1:
     extraction_date = datetime.today()
@@ -70,17 +57,21 @@ if not os.path.exists(csv_folder_path):
 
 # extract data from the postgres database
 credentials = get_db_credentials(CREDENTIALS_PATH)
-with psycopg2.connect(**credentials) as conn:
-    table_names = get_table_names(conn)
-    for table_name in table_names:
-        with conn.cursor() as cursor:
-            query = f"SELECT * FROM {table_name}"
-            table = pd.read_sql(query, conn)
-            output_name = f'{date_folder_path}/{table_name}.csv'
-            table.to_csv(output_name)
-
-conn.close() # contexts do not close the connection, only commit or
-# roll-back transactions in case of success or failure, respectively.
+user = credentials['user']
+password = credentials['password']
+host = credentials['host']
+port = credentials['port']
+db_name = credentials['dbname']
+engine = create_engine(
+    f'postgresql://{user}:{password}@{host}:{port}/{db_name}'
+)
+inspector = inspect(engine)
+table_names = inspector.get_table_names()
+for table_name in table_names:
+        table = pd.read_sql_table(table_name, engine.connect())
+        output_name = f'{date_folder_path}/{table_name}.csv'
+        table.to_csv(output_name)
+engine.dispose() # to prevent resource leaks
 
 # extract data from the provided csv file
 order_details = pd.read_csv(ORDER_DETAILS_PATH)
