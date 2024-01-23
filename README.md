@@ -52,7 +52,7 @@ The following tools should be used to solve this challenge:
 The solution should be based on the diagrams below:
 ![image](docs/diagrama_desafio_DE.jpg)
 
-The aim of the challenge is not only to assess technical knowledge in the area, but also the ability to search for information and use it to solve problems with tools that are not necessarily known to the candidate.
+
 ### Requirements
 
 - You **must** use the tools described above to complete the challenge.
@@ -69,25 +69,8 @@ The aim of the challenge is not only to assess technical knowledge in the area, 
 
 - Clean and organized code.
 - Good decisions at which step (which database, which file format..) and good arguments to back those decisions up.
-- Knowing how to research and find solutions for the different stages of the challenge are an important part of it.
+- The aim of the challenge is not only to assess technical knowledge in the area, but also the ability to search for information and use it to solve problems with tools that are not necessarily known to the candidate.
+- Point and click tools are not allowed.
 
-## Setup of the source database
-
-The source database can be set up using docker compose.
-You can install following the instructions at 
-https://docs.docker.com/compose/install/
-
-With docker compose installed simply run
-
-```
-docker compose up
-```
-
-You can find the credentials at the docker-compose.yml file
-
-## Final Instruction
-
-You can use any language you like, but keep in mind that we will have to run your pipeline, so choosing some languague or tooling that requires a complex environment might not be a good idea.
-You are free to use opensource libs and frameworks, but also keep in mind that **you have to write code**. Point and click tools are not allowed.
 
 Thank you for participating!
