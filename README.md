@@ -1,6 +1,3 @@
-# code-challenge
-Indicium code challenge for Software Developer focusing on data projects
-
 # Indicium Tech Code Challenge
 
 Code challenge for Software Developer with focus in data projects.
@@ -17,15 +14,15 @@ As a software developer with focus in data projects your mission is to plan, dev
 
 We are going to provide 2 data sources, a Postgres database and a CSV file.
 
-The CSV file represents details of orders from a ecommerce system.
+The CSV file represents details of orders from an ecommerce system.
 
-The database provided is a sample database provided by microsoft for education purposes called northwind, the only difference is that the order_detail table does not exists in this database you are beeing provided with.This order_details table is represented by the CSV file we provide.
+The database provided is a sample database provided by microsoft for education purposes called northwind, the only difference is that the **order_detail** table does not exists in this database you are beeing provided with. This order_details table is represented by the CSV file we provide.
 
 Schema of the original Northwind Database: 
 
 ![image](https://user-images.githubusercontent.com/49417424/105997621-9666b980-608a-11eb-86fd-db6b44ece02a.png)
 
-Your mission is to build a pipeline that extracts the data everyday from both sources and write the data first to local disk, and second to a database of your choice. For this challenge, the CSV file and the database will be static, but in any real world project, both data sources would be changing constantly.
+Your challenge is to build a pipeline that extracts the data everyday from both sources and write the data first to local disk, and second to a database of your choice. For this challenge, the CSV file and the database will be static, but in any real world project, both data sources would be changing constantly.
 
 
 Its important that all writing steps are isolated from each other, you shoud be able to run any step without executing the others.
