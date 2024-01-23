@@ -58,7 +58,7 @@ Database:
 - [PostgreSQL](https://www.postgresql.org/docs/15/index.html) (Database)
 
 The solution should be based on the diagrams below:
-![image](docs/diagrama_desafio_DE.jpg)
+![image](docs/diagrama_embulk_meltano.jpg)
 
 
 ### Requirements
