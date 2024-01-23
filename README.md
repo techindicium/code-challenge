@@ -44,9 +44,17 @@ The final goal is to be able to run a query that shows the orders and its detail
 
 As Indicium uses some standard tools, the challenge was designed to be done using some of these tools.
 
-The following tools should be used to solve this challenge:
-- [Airflow](https://airflow.apache.org/docs/apache-airflow/stable/installation/index.html) (Scheduler)
-- [Embulk](https://www.embulk.org) (Data Loader)
+The following tools should be used to solve this challenge.
+
+Scheduler:
+- [Airflow](https://airflow.apache.org/docs/apache-airflow/stable/installation/index.html)
+
+Data Loader:
+- [Embulk](https://www.embulk.org) (Java Based)
+**OR**
+- [Meltano](https://docs.meltano.com/?_gl=1*1nu14zf*_gcl_au*MTg2OTE2NDQ4Mi4xNzA2MDM5OTAz) (Python Based)
+
+Database:
 - [PostgreSQL](https://www.postgresql.org/docs/15/index.html) (Database)
 
 The solution should be based on the diagrams below:
