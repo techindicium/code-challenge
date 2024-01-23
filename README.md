@@ -50,7 +50,7 @@ The following tools should be used to solve this challenge:
 - [PostgreSQL](https://www.postgresql.org/docs/15/index.html) (Database)
 
 The solution should be based on the diagrams below:
-![image](https://drive.google.com/file/d/1ako3kLE0QXDSRRiZPfm4Mz8IXixMIRlX/view?usp=sharing)
+![image](docs/diagrama_desafio_DE.jpg)
 
 The aim of the challenge is not only to assess technical knowledge in the area, but also the ability to search for information and use it to solve problems with tools that are not necessarily known to the candidate.
 ### Requirements
