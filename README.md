@@ -55,7 +55,7 @@ Data Loader:
 - [Meltano](https://docs.meltano.com/?_gl=1*1nu14zf*_gcl_au*MTg2OTE2NDQ4Mi4xNzA2MDM5OTAz) (Python Based)
 
 Database:
-- [PostgreSQL](https://www.postgresql.org/docs/15/index.html) (Database)
+- [PostgreSQL](https://www.postgresql.org/docs/15/index.html)
 
 The solution should be based on the diagrams below:
 ![image](docs/diagrama_embulk_meltano.jpg)
