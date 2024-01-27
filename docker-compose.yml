@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   db:
@@ -12,3 +12,17 @@ services:
       - ./data/northwind.sql:/docker-entrypoint-initdb.d/northwind.sql
     ports:
       - 5432:5432
+
+  mysql_db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: mysql_northwind
+      MYSQL_USER: northwind_user
+      MYSQL_PASSWORD: thewindisblowing
+      MYSQL_ROOT_PASSWORD: root
+    command: mysqld --sql_mode="" --init-connect='SET NAMES UTF8;' --innodb-flush-log-at-trx-commit=0
+    volumes:
+      - ./mysqldata/data:/var/lib/mysql
+      - ./data/mysql.sql:/docker-entrypoint-initdb.d/mysql.sql
+    ports:
+      - 3306:3306
