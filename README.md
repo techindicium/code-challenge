@@ -36,6 +36,19 @@ Clyde also said it would be nice if the extraction files did not get overwritten
 
 Now it is up to you! You can show Clyde the output of a select query to demonstrate that the data from the details of the orders are in the provisioned data warehouse. 
 
+## Getting started
+
+First, ensure you have [Docker](https://www.docker.com/) installed on your system (alongside the [compose plugin](https://docs.docker.com/compose/install/linux/) - not sure it is installed? run `docker compose version`). Now you may deploy both PostgreSQL instances using:
+```shell
+docker compose up -d
+```
+
+This will deploy two containers representing the Northwind database and data warehouse. You are free to add further services to this specification but are not allowed to modify existing configurations.
+
+Follow the tutorials or devise your own Airflow deployment, but remember to document the steps required to get your solution up and running on other people's hardware (document the constraints you have tested on - Windows, Linux, etc). Although it is advised to follow Clyde's guidelines, you are free to design your own solution to the Northwind issue.
+
+Hint: inspect the docker-compose file to find useful information.
+
 - You **must** use a combination of the tools described above to complete the challenge.
 - All tasks should be idempotent, you should be able to run the pipeline every day and, in this case, where the data is static, the output should be the same.
 - Step 2 depends on both Step 1 tasks, therefore Step 2 should not run in case *any of Step 1 do not succeed*.
