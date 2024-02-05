@@ -12,56 +12,29 @@ As a software developer with a focus on data projects, your mission is to plan, 
 
 ## The Challenge
 
-We are going to provide 2 data sources, a PostgreSQL database and a CSV file.
+Consider the Northwind business, which has most of its data in a single database, a PostgreSQL instance, here is an entity-relation (ER) diagram of the database:
 
-The CSV file represents details of orders from an ecommerce system.
+![Northwind ER Diagram](https://user-images.githubusercontent.com/49417424/105997621-9666b980-608a-11eb-86fd-db6b44ece02a.png)
 
-The database provided is a sample database provided by microsoft for education purposes called northwind, the only difference is that the **order_detail** table does not exists in this database you are beeing provided with. This order_details table is represented by the CSV file we provide.
+The database has all the company's data, apart from the details of Northwind's orders, which come from a separate e-commerce system. This system outputs all details of the orders daily as a CSV file, this is the only format and frequency the system can operate.
 
-Schema of the original Northwind Database: 
+Furthermore, Clyde, a new Northwind data analyst, has shown the CEO some bad-ass dashboards he made using the company database. Since then, the CEO has become very fond of the information from the dashboards, such that now he is interested in seeing a panel which Clyde has determined requires the details of the orders. To this end, the CEO asked the IT team to provision a data warehouse (a secondary PostgreSQL), since he does not wish to undermine the production database with an analytical processing load.
 
-![image](https://user-images.githubusercontent.com/49417424/105997621-9666b980-608a-11eb-86fd-db6b44ece02a.png)
+Now Clyde needs you to join the data from the production (source) database along with the CSV file containing the details of the orders that the system outputs. He insisted it is important to do this in two steps, first, extract the data from its source into the local filesystem and then load the data into the data warehouse (destination database).
 
-Your challenge is to build a pipeline that extracts the data everyday from both sources and write the data first to local disk, and second to a PostgreSQL database. For this challenge, the CSV file and the database will be static, but in any real world project, both data sources would be changing constantly.
+Clyde is no expert and he is open to new ideas, but he has **lots** of experience working with other data engineers in the past. He knows they mostly use something called Airflow to orchestrate the data pipelines, and they also like to use tools such as Embulk and Meltano for these extraction/loading tasks. Finally, he made this visual schematic to further clear the air if you had any doubts:
 
-Its important that all writing steps (writing data from inputs to local filesystem and writing data from local filesystem to PostgreSQL database) are isolated from each other, you shoud be able to run any step without executing the others.
+![Solution diagram](docs/diagrama_embulk_meltano.jpg)
 
-For the first step, where you write data to local disk, you should write one file for each table. This pipeline will run everyday, so there should be a separation in the file paths you will create for each source(CSV or Postgres), table and execution day combination, e.g.:
+Clyde also said it would be nice if the extraction files did not get overwritten with new data or deleted every day the piipeline runs. This would ensure an extraction backup in any event and also would help to debug any issues in the future. Finally, he managed to gather some extra links to help you get started:
 
-```
-/data/postgres/{table}/2024-01-01/file.format
-/data/postgres/{table}/2024-01-02/file.format
-/data/csv/2024-01-02/file.format
-```
-
-You are free to chose the naming and the format of the file you are going to save.
-
-At step 2, you should load the data from the local filesystem, which you have created, to the final database.
-
-The final goal is to be able to run a query that shows the orders and its details. The Orders are placed in a table called **orders** at the postgres Northwind database. The details are placed at the csv file provided, and each line has an **order_id** field pointing the **orders** table.
-
-## Solution Diagram
-
-As Indicium uses some standard tools, the challenge was designed to be done using some of these tools.
-
-The following tools should be used to solve this challenge.
-
-Scheduler:
+- [Docker](https://www.docker.com/)
 - [Airflow](https://airflow.apache.org/docs/apache-airflow/stable/installation/index.html)
-
-Data Loader:
 - [Embulk](https://www.embulk.org) (Java Based)
-**OR**
 - [Meltano](https://docs.meltano.com/?_gl=1*1nu14zf*_gcl_au*MTg2OTE2NDQ4Mi4xNzA2MDM5OTAz) (Python Based)
-
-Database:
 - [PostgreSQL](https://www.postgresql.org/docs/15/index.html)
 
-The solution should be based on the diagrams below:
-![image](docs/diagrama_embulk_meltano.jpg)
-
-
-### Requirements
+Now it is up to you! You can show Clyde the output of a select query to demonstrate that the data from the details of the orders are in the provisioned data warehouse. 
 
 - You **must** use a combination of the tools described above to complete the challenge.
 - All tasks should be idempotent, you should be able to run the pipeline every day and, in this case, where the data is static, the output should be the same.
