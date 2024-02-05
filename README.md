@@ -49,6 +49,13 @@ Follow the tutorials or devise your own Airflow deployment, but remember to docu
 
 Hint: inspect the docker-compose file to find useful information.
 
+## Trivia
+
+The actual Northwind database is a sample database provided by Microsoft for educational purposes. The actual database differs from the copy provided herein only for the `orders_details` table, which has been extracted as a CSV and provided as an external file.
+
+
+## Requirements
+
 - You **must** use a combination of the tools described above to complete the challenge.
 - All tasks should be idempotent, you should be able to run the pipeline every day and, in this case, where the data is static, the output should be the same.
 - Step 2 depends on both Step 1 tasks, therefore Step 2 should not run in case *any of Step 1 do not succeed*.
@@ -59,7 +66,7 @@ Hint: inspect the docker-compose file to find useful information.
 - You should assume that the pipeline will run for different days, every day.
 - Your pipeline should be prepared to run for past days, meaning you should be able to pass an argument to the pipeline with a day from the past, and it should reprocess the data for that day. Since the data for this challenge is static, the only difference for each day of execution will be local file system paths.
 
-### Things that Matters
+### Yes, it matters...
 
 - Clean and organized code.
 - Good decisions at which step (which database, which file format..) and good arguments to back those decisions up.
