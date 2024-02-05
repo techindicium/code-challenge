@@ -1,13 +1,13 @@
 # Indicium Tech Code Challenge
 
-Code challenge for Software Developer with focus in data projects.
+Code challenge for Software Developer with a focus on data projects.
 
 
 ## Context
 
-At Indicium we have many projects where we develop the whole data pipeline for our client, from extracting data from many data sources to loading this data at its final destination, with this final destination varying from a data warehouse for a Business Intelligency tool to an api for integrating with third party systems.
+At Indicium we have many projects where we develop the whole data pipeline for our client, spanning from data extraction of diverse data sources, up to loading the extracted data at its final destination, which varies from a data warehouse for a Business Intelligence (BI) tool to an API that integrates with third-party systems or software.
 
-As a software developer with focus in data projects your mission is to plan, develop, deploy, and maintain a data pipeline.
+As a software developer with a focus on data projects, your mission is to plan, develop, deploy, and maintain data pipelines.
 
 
 ## The Challenge
@@ -63,22 +63,22 @@ The solution should be based on the diagrams below:
 
 ### Requirements
 
-- You **must** use the tools described above to complete the challenge.
-- All tasks should be idempotent, you should be able to run the pipeline everyday and, in this case where the data is static, the output shold be the same.
-- Step 2 depends on both tasks of step 1, so you should not be able to run step 2 for a day if the tasks from step 1 did not succeed.
+- You **must** use a combination of the tools described above to complete the challenge.
+- All tasks should be idempotent, you should be able to run the pipeline every day and, in this case, where the data is static, the output should be the same.
+- Step 2 depends on both Step 1 tasks, therefore Step 2 should not run in case *any of Step 1 do not succeed*.
 - You should extract all the tables from the source database, it does not matter that you will not use most of them for the final step.
-- You should be able to tell where the pipeline failed clearly, so you know from which step you should rerun the pipeline.
+- You should be able to tell exactly where the pipeline failed, so you know from where to rerun the pipeline.
 - You have to provide clear instructions on how to run the whole pipeline. The easier the better.
-- You must provide evidence that the process has been completed successfully, i.e. you must provide a csv or json with the result of the query described above.
-- You should assume that it will run for different days, everyday.
-- Your pipeline should be prepared to run for past days, meaning you should be able to pass an argument to the pipeline with a day from the past, and it should reprocess the data for that day. Since the data for this challenge is static, the only difference for each day of execution will be the output paths.
+- You must provide evidence that the process has been completed successfully, i.e. you must provide a CSV or JSON with the result of the query described above.
+- You should assume that the pipeline will run for different days, every day.
+- Your pipeline should be prepared to run for past days, meaning you should be able to pass an argument to the pipeline with a day from the past, and it should reprocess the data for that day. Since the data for this challenge is static, the only difference for each day of execution will be local file system paths.
 
 ### Things that Matters
 
 - Clean and organized code.
 - Good decisions at which step (which database, which file format..) and good arguments to back those decisions up.
-- The aim of the challenge is not only to assess technical knowledge in the area, but also the ability to search for information and use it to solve problems with tools that are not necessarily known to the candidate.
-- Point and click tools are not allowed.
+- The aim of the challenge is not only to assess technical knowledge in the field but also the ability to search for information and use it to solve problems with tools that are not necessarily known to the candidate.
+- Point-and-click tools are not allowed.
 
 
 Thank you for participating!
