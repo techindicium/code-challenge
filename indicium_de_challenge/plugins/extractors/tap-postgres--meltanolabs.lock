@@ -1,0 +1,270 @@
+{
+  "plugin_type": "extractors",
+  "name": "tap-postgres",
+  "namespace": "tap_postgres",
+  "variant": "meltanolabs",
+  "label": "Postgres",
+  "docs": "https://hub.meltano.com/extractors/tap-postgres--meltanolabs",
+  "repo": "https://github.com/MeltanoLabs/tap-postgres",
+  "pip_url": "git+https://github.com/MeltanoLabs/tap-postgres.git",
+  "description": "PostgreSQL database extractor",
+  "logo_url": "https://hub.meltano.com/assets/logos/extractors/postgres.png",
+  "capabilities": [
+    "about",
+    "batch",
+    "catalog",
+    "discover",
+    "schema-flattening",
+    "state",
+    "stream-maps"
+  ],
+  "settings_group_validation": [
+    [
+      "sqlalchemy_url"
+    ]
+  ],
+  "settings": [
+    {
+      "name": "batch_config.encoding.compression",
+      "kind": "options",
+      "label": "Batch Config Encoding Compression",
+      "description": "Compression format to use for batch files.",
+      "options": [
+        {
+          "label": "Gzip",
+          "value": "gzip"
+        },
+        {
+          "label": "None",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "name": "batch_config.encoding.format",
+      "kind": "options",
+      "label": "Batch Config Encoding Format",
+      "description": "Format to use for batch files.",
+      "options": [
+        {
+          "label": "Jsonl",
+          "value": "jsonl"
+        },
+        {
+          "label": "Parquet",
+          "value": "parquet"
+        }
+      ]
+    },
+    {
+      "name": "batch_config.storage.prefix",
+      "kind": "string",
+      "label": "Batch Config Storage Prefix",
+      "description": "Prefix to use when writing batch files."
+    },
+    {
+      "name": "batch_config.storage.root",
+      "kind": "string",
+      "label": "Batch Config Storage Root",
+      "description": "Root path to use when writing batch files."
+    },
+    {
+      "name": "database",
+      "kind": "string",
+      "label": "Database",
+      "description": "Database name. Note if sqlalchemy_url is set this will be ignored."
+    },
+    {
+      "name": "dates_as_string",
+      "kind": "boolean",
+      "value": false,
+      "label": "Dates As String",
+      "description": "Defaults to false, if true, date, and timestamp fields will be Strings. If you see ValueError: Year is out of range, try setting this to True."
+    },
+    {
+      "name": "default_replication_method",
+      "kind": "options",
+      "value": "FULL_TABLE",
+      "label": "Default Replication Method",
+      "description": "Replication method to use if there is not a catalog entry to override this choice. One of `FULL_TABLE`, `INCREMENTAL`, or `LOG_BASED`.",
+      "options": [
+        {
+          "label": "Full Table",
+          "value": "FULL_TABLE"
+        },
+        {
+          "label": "Incremental",
+          "value": "INCREMENTAL"
+        },
+        {
+          "label": "Log Based",
+          "value": "LOG_BASED"
+        }
+      ]
+    },
+    {
+      "name": "faker_config.locale",
+      "kind": "string",
+      "label": "Faker Config Locale",
+      "description": "One or more LCID locale strings to produce localized output for: https://faker.readthedocs.io/en/master/#localization"
+    },
+    {
+      "name": "faker_config.seed",
+      "kind": "string",
+      "label": "Faker Config Seed",
+      "description": "Value to seed the Faker generator for deterministic output: https://faker.readthedocs.io/en/master/#seeding-the-generator"
+    },
+    {
+      "name": "filter_schemas",
+      "kind": "array",
+      "label": "Filter Schemas",
+      "description": "If an array of schema names is provided, the tap will only process the specified Postgres schemas and ignore others. If left blank, the tap automatically determines ALL available Postgres schemas."
+    },
+    {
+      "name": "flattening_enabled",
+      "kind": "boolean",
+      "label": "Flattening Enabled",
+      "description": "'True' to enable schema flattening and automatically expand nested properties."
+    },
+    {
+      "name": "flattening_max_depth",
+      "kind": "integer",
+      "label": "Flattening Max Depth",
+      "description": "The max depth to flatten schemas."
+    },
+    {
+      "name": "host",
+      "kind": "string",
+      "label": "Host",
+      "description": "Hostname for postgres instance. Note if sqlalchemy_url is set this will be ignored."
+    },
+    {
+      "name": "password",
+      "kind": "password",
+      "label": "Password",
+      "description": "Password used to authenticate. Note if sqlalchemy_url is set this will be ignored.",
+      "sensitive": true
+    },
+    {
+      "name": "port",
+      "kind": "integer",
+      "value": 5432,
+      "label": "Port",
+      "description": "The port on which postgres is awaiting connection. Note if sqlalchemy_url is set this will be ignored."
+    },
+    {
+      "name": "sqlalchemy_url",
+      "kind": "string",
+      "label": "Sqlalchemy URL",
+      "description": "Example postgresql://[username]:[password]@localhost:5432/[db_name]"
+    },
+    {
+      "name": "ssh_tunnel.enable",
+      "kind": "boolean",
+      "value": false,
+      "label": "SSH Tunnel Enable",
+      "description": "Enable an ssh tunnel (also known as bastion server), see the other ssh_tunnel.* properties for more details"
+    },
+    {
+      "name": "ssh_tunnel.host",
+      "kind": "string",
+      "label": "SSH Tunnel Host",
+      "description": "Host of the bastion server, this is the host we'll connect to via ssh"
+    },
+    {
+      "name": "ssh_tunnel.port",
+      "kind": "integer",
+      "value": 22,
+      "label": "SSH Tunnel Port",
+      "description": "Port to connect to bastion server"
+    },
+    {
+      "name": "ssh_tunnel.private_key",
+      "kind": "password",
+      "label": "SSH Tunnel Private Key",
+      "description": "Private Key for authentication to the bastion server",
+      "sensitive": true
+    },
+    {
+      "name": "ssh_tunnel.private_key_password",
+      "kind": "password",
+      "label": "SSH Tunnel Private Key Password",
+      "description": "Private Key Password, leave None if no password is set",
+      "sensitive": true
+    },
+    {
+      "name": "ssh_tunnel.username",
+      "kind": "string",
+      "label": "SSH Tunnel Username",
+      "description": "Username to connect to bastion server"
+    },
+    {
+      "name": "ssl_certificate_authority",
+      "kind": "string",
+      "value": "~/.postgresql/root.crl",
+      "label": "SSL Certificate Authority",
+      "description": "The certificate authority that should be used to verify the server's identity. Can be provided either as the certificate itself (in .env) or as a filepath to the certificate. Note if sqlalchemy_url is set this will be ignored."
+    },
+    {
+      "name": "ssl_client_certificate",
+      "kind": "string",
+      "value": "~/.postgresql/postgresql.crt",
+      "label": "SSL Client Certificate",
+      "description": "The certificate that should be used to verify your identity to the server. Can be provided either as the certificate itself (in .env) or as a filepath to the certificate. Note if sqlalchemy_url is set this will be ignored."
+    },
+    {
+      "name": "ssl_client_certificate_enable",
+      "kind": "boolean",
+      "value": false,
+      "label": "SSL Client Certificate Enable",
+      "description": "Whether or not to provide client-side certificates as a method of authentication to the server. Use ssl_client_certificate and ssl_client_private_key for further customization. To use SSL to verify the server's identity, use ssl_enable instead. Note if sqlalchemy_url is set this will be ignored."
+    },
+    {
+      "name": "ssl_client_private_key",
+      "kind": "password",
+      "value": "~/.postgresql/postgresql.key",
+      "label": "SSL Client Private Key",
+      "description": "The private key for the certificate you provided. Can be provided either as the certificate itself (in .env) or as a filepath to the certificate. Note if sqlalchemy_url is set this will be ignored.",
+      "sensitive": true
+    },
+    {
+      "name": "ssl_enable",
+      "kind": "boolean",
+      "value": false,
+      "label": "SSL Enable",
+      "description": "Whether or not to use ssl to verify the server's identity. Use ssl_certificate_authority and ssl_mode for further customization. To use a client certificate to authenticate yourself to the server, use ssl_client_certificate_enable instead. Note if sqlalchemy_url is set this will be ignored."
+    },
+    {
+      "name": "ssl_mode",
+      "kind": "string",
+      "value": "verify-full",
+      "label": "SSL Mode",
+      "description": "SSL Protection method, see [postgres documentation](https://www.postgresql.org/docs/current/libpq-ssl.html#LIBPQ-SSL-PROTECTION) for more information. Must be one of disable, allow, prefer, require, verify-ca, or verify-full. Note if sqlalchemy_url is set this will be ignored."
+    },
+    {
+      "name": "ssl_storage_directory",
+      "kind": "string",
+      "value": ".secrets",
+      "label": "SSL Storage Directory",
+      "description": "The folder in which to store SSL certificates provided as raw values. When a certificate/key is provided as a raw value instead of as a filepath, it must be written to a file before it can be used. This configuration option determines where that file is created."
+    },
+    {
+      "name": "stream_map_config",
+      "kind": "object",
+      "label": "Stream Map Config",
+      "description": "User-defined config values to be used within map expressions."
+    },
+    {
+      "name": "stream_maps",
+      "kind": "object",
+      "label": "Stream Maps",
+      "description": "Config object for stream maps capability. For more information check out [Stream Maps](https://sdk.meltano.com/en/latest/stream_maps.html)."
+    },
+    {
+      "name": "user",
+      "kind": "string",
+      "label": "User",
+      "description": "User name used to authenticate. Note if sqlalchemy_url is set this will be ignored."
+    }
+  ]
+}
