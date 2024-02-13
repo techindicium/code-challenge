@@ -1,0 +1,23 @@
+version: 1
+default_environment: dev
+project_id: 70d03f7d-4bc3-440a-ab8b-898008c58551
+environments:
+- name: dev
+- name: staging
+- name: prod
+plugins:
+  extractors:
+  - name: tap-postgres
+    variant: meltanolabs
+    pip_url: git+https://github.com/MeltanoLabs/tap-postgres.git
+    config:
+      database: northwind
+      host: localhost
+      port: 5432
+      user: meltano_client
+  loaders:
+  - name: target-csv
+    variant: meltanolabs
+    pip_url: git+https://github.com/MeltanoLabs/target-csv.git
+    config:
+      output_path: ../postgreSQL_data
