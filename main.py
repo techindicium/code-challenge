@@ -6,6 +6,12 @@ import logging
 import os
 import psycopg2
 import sqlite3
+from airflow.models import DagBag
+
+dag_bag = DagBag(dag_folder="C:\\Users\\Vanessa\\Desktop\\code-challenge\\dags")
+
+# Checa se a DAG está carregada corretamente
+assert dag_bag.import_errors == {}, "DAG import falhou!"
 
 # Configuração do logger
 logging.basicConfig(level=logging.INFO, format='%(levelname)s - %(message)s')
