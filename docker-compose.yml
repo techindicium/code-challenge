@@ -12,3 +12,16 @@ services:
       - ./data/northwind.sql:/docker-entrypoint-initdb.d/northwind.sql
     ports:
       - 5432:5432
+
+  airflow:
+    image: apache/airflow:2.2.3
+    command: webserver  # Adicione esta linha para especificar o comando a ser executado
+    environment:
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://northwind_user:thewindisblowing@db:5432/order_management
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor 
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
