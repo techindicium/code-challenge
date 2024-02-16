@@ -1,0 +1,233 @@
+{
+  "plugin_type": "loaders",
+  "name": "target-postgres",
+  "namespace": "target_postgres",
+  "variant": "meltanolabs",
+  "label": "Postgres",
+  "docs": "https://hub.meltano.com/loaders/target-postgres--meltanolabs",
+  "repo": "https://github.com/MeltanoLabs/target-postgres",
+  "pip_url": "meltanolabs-target-postgres",
+  "executable": "target-postgres",
+  "description": "PostgreSQL database loader",
+  "logo_url": "https://hub.meltano.com/assets/logos/loaders/postgres.png",
+  "capabilities": [
+    "about",
+    "schema-flattening",
+    "stream-maps"
+  ],
+  "settings_group_validation": [
+    []
+  ],
+  "settings": [
+    {
+      "name": "activate_version",
+      "kind": "boolean",
+      "value": true,
+      "label": "Activate Version",
+      "description": "If set to false, the tap will ignore activate version messages. If set to true, add_record_metadata must be set to true as well."
+    },
+    {
+      "name": "add_record_metadata",
+      "kind": "boolean",
+      "value": true,
+      "label": "Add Record Metadata",
+      "description": "Note that this must be enabled for activate_version to work!This adds _sdc_extracted_at, _sdc_batched_at, and more to every table. See https://sdk.meltano.com/en/latest/implementation/record_metadata.html for more information."
+    },
+    {
+      "name": "database",
+      "kind": "string",
+      "label": "Database",
+      "description": "Database name. Note if sqlalchemy_url is set this will be ignored."
+    },
+    {
+      "name": "default_target_schema",
+      "kind": "string",
+      "value": "$MELTANO_EXTRACT__LOAD_SCHEMA",
+      "label": "Default Target Schema",
+      "description": "Postgres schema to send data to, example: tap-clickup"
+    },
+    {
+      "name": "dialect+driver",
+      "kind": "string",
+      "value": "postgresql+psycopg2",
+      "label": "Dialect+Driver",
+      "description": "Dialect+driver see https://docs.sqlalchemy.org/en/20/core/engines.html. Generally just leave this alone. Note if sqlalchemy_url is set this will be ignored."
+    },
+    {
+      "name": "flattening_enabled",
+      "kind": "boolean",
+      "label": "Flattening Enabled",
+      "description": "'True' to enable schema flattening and automatically expand nested properties."
+    },
+    {
+      "name": "flattening_max_depth",
+      "kind": "integer",
+      "label": "Flattening Max Depth",
+      "description": "The max depth to flatten schemas."
+    },
+    {
+      "name": "hard_delete",
+      "kind": "boolean",
+      "value": false,
+      "label": "Hard Delete",
+      "description": "When activate version is sent from a tap this specefies if we should delete the records that don't match, or mark them with a date in the `_sdc_deleted_at` column. This config option is ignored if `activate_version` is set to false."
+    },
+    {
+      "name": "host",
+      "kind": "string",
+      "label": "Host",
+      "description": "Hostname for postgres instance. Note if sqlalchemy_url is set this will be ignored."
+    },
+    {
+      "name": "load_method",
+      "kind": "options",
+      "value": "append-only",
+      "label": "Load Method",
+      "description": "The method to use when loading data into the destination. `append-only` will always write all input records whether that records already exists or not. `upsert` will update existing records and insert new records. `overwrite` will delete all existing records and insert all input records.",
+      "options": [
+        {
+          "label": "Append Only",
+          "value": "append-only"
+        },
+        {
+          "label": "Upsert",
+          "value": "upsert"
+        },
+        {
+          "label": "Overwrite",
+          "value": "overwrite"
+        }
+      ]
+    },
+    {
+      "name": "password",
+      "kind": "password",
+      "label": "Password",
+      "description": "Password used to authenticate. Note if sqlalchemy_url is set this will be ignored.",
+      "sensitive": true
+    },
+    {
+      "name": "port",
+      "kind": "integer",
+      "value": 5432,
+      "label": "Port",
+      "description": "The port on which postgres is awaiting connection. Note if sqlalchemy_url is set this will be ignored."
+    },
+    {
+      "name": "sqlalchemy_url",
+      "kind": "string",
+      "label": "Sqlalchemy URL",
+      "description": "SQLAlchemy connection string. This will override using host, user, password, port, dialect, and all ssl settings. Note that you must escape password special characters properly. See https://docs.sqlalchemy.org/en/20/core/engines.html#escaping-special-characters-such-as-signs-in-passwords"
+    },
+    {
+      "name": "ssh_tunnel.enable",
+      "kind": "boolean",
+      "value": false,
+      "label": "SSH Tunnel Enable",
+      "description": "Enable an ssh tunnel (also known as bastion host), see the other ssh_tunnel.* properties for more details"
+    },
+    {
+      "name": "ssh_tunnel.host",
+      "kind": "string",
+      "label": "SSH Tunnel Host",
+      "description": "Host of the bastion host, this is the host we'll connect to via ssh"
+    },
+    {
+      "name": "ssh_tunnel.port",
+      "kind": "integer",
+      "value": 22,
+      "label": "SSH Tunnel Port",
+      "description": "Port to connect to bastion host"
+    },
+    {
+      "name": "ssh_tunnel.private_key",
+      "kind": "password",
+      "label": "SSH Tunnel Private Key",
+      "description": "Private Key for authentication to the bastion host",
+      "sensitive": true
+    },
+    {
+      "name": "ssh_tunnel.private_key_password",
+      "kind": "password",
+      "label": "SSH Tunnel Private Key Password",
+      "description": "Private Key Password, leave None if no password is set",
+      "sensitive": true
+    },
+    {
+      "name": "ssh_tunnel.username",
+      "kind": "string",
+      "label": "SSH Tunnel Username",
+      "description": "Username to connect to bastion host"
+    },
+    {
+      "name": "ssl_certificate_authority",
+      "kind": "string",
+      "value": "~/.postgresql/root.crl",
+      "label": "SSL Certificate Authority",
+      "description": "The certificate authority that should be used to verify the server's identity. Can be provided either as the certificate itself (in .env) or as a filepath to the certificate. Note if sqlalchemy_url is set this will be ignored."
+    },
+    {
+      "name": "ssl_client_certificate",
+      "kind": "string",
+      "value": "~/.postgresql/postgresql.crt",
+      "label": "SSL Client Certificate",
+      "description": "The certificate that should be used to verify your identity to the server. Can be provided either as the certificate itself (in .env) or as a filepath to the certificate. Note if sqlalchemy_url is set this will be ignored."
+    },
+    {
+      "name": "ssl_client_certificate_enable",
+      "kind": "boolean",
+      "value": false,
+      "label": "SSL Client Certificate Enable",
+      "description": "Whether or not to provide client-side certificates as a method of authentication to the server. Use ssl_client_certificate and ssl_client_private_key for further customization. To use SSL to verify the server's identity, use ssl_enable instead. Note if sqlalchemy_url is set this will be ignored."
+    },
+    {
+      "name": "ssl_client_private_key",
+      "kind": "password",
+      "value": "~/.postgresql/postgresql.key",
+      "label": "SSL Client Private Key",
+      "description": "The private key for the certificate you provided. Can be provided either as the certificate itself (in .env) or as a filepath to the certificate. Note if sqlalchemy_url is set this will be ignored.",
+      "sensitive": true
+    },
+    {
+      "name": "ssl_enable",
+      "kind": "boolean",
+      "value": false,
+      "label": "SSL Enable",
+      "description": "Whether or not to use ssl to verify the server's identity. Use ssl_certificate_authority and ssl_mode for further customization. To use a client certificate to authenticate yourself to the server, use ssl_client_certificate_enable instead. Note if sqlalchemy_url is set this will be ignored."
+    },
+    {
+      "name": "ssl_mode",
+      "kind": "string",
+      "value": "verify-full",
+      "label": "SSL Mode",
+      "description": "SSL Protection method, see [postgres documentation](https://www.postgresql.org/docs/current/libpq-ssl.html#LIBPQ-SSL-PROTECTION) for more information. Must be one of disable, allow, prefer, require, verify-ca, or verify-full. Note if sqlalchemy_url is set this will be ignored."
+    },
+    {
+      "name": "ssl_storage_directory",
+      "kind": "string",
+      "value": ".secrets",
+      "label": "SSL Storage Directory",
+      "description": "The folder in which to store SSL certificates provided as raw values. When a certificate/key is provided as a raw value instead of as a filepath, it must be written to a file before it can be used. This configuration option determines where that file is created."
+    },
+    {
+      "name": "stream_map_config",
+      "kind": "object",
+      "label": "Stream Map Config",
+      "description": "User-defined config values to be used within map expressions."
+    },
+    {
+      "name": "stream_maps",
+      "kind": "object",
+      "label": "Stream Maps",
+      "description": "Config object for stream maps capability. For more information check out [Stream Maps](https://sdk.meltano.com/en/latest/stream_maps.html)."
+    },
+    {
+      "name": "user",
+      "kind": "string",
+      "label": "User",
+      "description": "User name used to authenticate. Note if sqlalchemy_url is set this will be ignored."
+    }
+  ],
+  "dialect": "postgres",
+  "target_schema": "$TARGET_POSTGRES_SCHEMA"
+}

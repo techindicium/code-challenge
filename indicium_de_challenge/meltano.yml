@@ -5,19 +5,89 @@ environments:
 - name: dev
 - name: staging
 - name: prod
+
 plugins:
   extractors:
   - name: tap-postgres
     variant: meltanolabs
     pip_url: git+https://github.com/MeltanoLabs/tap-postgres.git
     config:
+      replication-method: LOG-BASED
+      stream_maps:
+        public-orders:
+          freight: float(freight)
+        public-products:
+          unit_price: float(unit_price)
       database: northwind
       host: localhost
       port: 5432
       user: meltano_client
+    select:
+    - public-*.*
+
+  - name: tap-csv-from-csv
+    inherit_from: tap-csv
+    config:
+      files: [{entity: order_details, path: D:\code-challenge\data\order_details.csv,
+          keys: [order_id], delimiter: ','}]
+
+  - name: tap-csv-from-postgres
+    inherit_from: tap-csv
+    config:
+      files: [{entity: public-products, path: D:\code-challenge\data\postgres, keys: [
+            order_id], delimiter: ','}]
+
+  - name: tap-csv-to-postgres-from-csv
+    inherit_from: tap-csv
+    config:
+      files: [{entity: order_details, path: D:\code-challenge\data\csv, keys: [],
+          delimiter: ','}, {entity: orders, path: D:\code-challenge\data\postgres\public-orders.csv,
+          keys: [order_id], delimiter: ','}, {entity: categories, path: D:\code-challenge\data\postgres\public-categories.csv,
+          keys: [category_id], delimiter: ','}, {entity: customer, path: D:\code-challenge\data\postgres\public-customers.csv,
+          keys: [customer_id], delimiter: ','}, {entity: employee_territories, path: D:\code-challenge\data\postgres\public-employee_territories.csv,
+          keys: [], delimiter: ','}, {entity: employees, path: D:\code-challenge\data\postgres\public-employees.csv,
+          keys: [employee_id], delimiter: ','}, {entity: products, path: D:\code-challenge\data\postgres\public-products.csv,
+          keys: [product_id], delimiter: ','}, {entity: region, path: D:\code-challenge\data\postgres\public-region.csv,
+          keys: [region_id], delimiter: ','}, {entity: shippers, path: D:\code-challenge\data\postgres\public-shippers.csv,
+          keys: [shipper_id], delimiter: ','}, {entity: suppliers, path: D:\code-challenge\data\postgres\public-suppliers.csv,
+          keys: [supplier_id], delimiter: ','}, {entity: territories, path: D:\code-challenge\data\postgres\public-territories.csv,
+          keys: [territory_id], delimiter: ','}, {entity: us_states, path: D:\code-challenge\data\postgres\public-us_states.csv,
+          keys: [state_id], delimiter: ','}]
+
+  - name: tap-csv
+    variant: meltanolabs
+    pip_url: git+https://github.com/MeltanoLabs/tap-csv.git
   loaders:
+  - name: target-csv-from-postgres
+    inherit_from: target-csv
+    config:
+      destination_path: D:\code-challenge\data\postgres
+      file_naming_scheme: '{stream_name}.csv'
+
+  - name: target-csv-from-csv
+    inherit_from: target-csv
+    config:
+      output_path: D:\code-challenge\data\csv
   - name: target-csv
     variant: meltanolabs
     pip_url: git+https://github.com/MeltanoLabs/target-csv.git
+  - name: target-postgres
+    variant: meltanolabs
+    pip_url: meltanolabs-target-postgres
     config:
-      output_path: ../postgreSQL_data
+      activate_version: false
+      add_record_metadata: false
+      default_target_schema: northwind-updated_schema
+      host: localhost
+      port: 5432
+      user: meltano_client
+      database: northwind
+      load_method: append-only
+  orchestrators:
+  - name: airflow
+    variant: apache
+    pip_url: apache-airflow==2.1.2 --constraint https://raw.githubusercontent.com/apache/airflow/constraints-2.1.2/constraints-${MELTANO__PYTHON_VERSION}.txt
+  files:
+  - name: files-airflow
+    variant: meltano
+    pip_url: git+https://github.com/meltano/files-airflow.git
