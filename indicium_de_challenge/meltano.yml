@@ -68,9 +68,11 @@ plugins:
     inherit_from: target-csv
     config:
       output_path: D:\code-challenge\data\csv
+      
   - name: target-csv
     variant: meltanolabs
     pip_url: git+https://github.com/MeltanoLabs/target-csv.git
+
   - name: target-postgres
     variant: meltanolabs
     pip_url: meltanolabs-target-postgres
@@ -83,11 +85,3 @@ plugins:
       user: meltano_client
       database: northwind
       load_method: append-only
-  orchestrators:
-  - name: airflow
-    variant: apache
-    pip_url: apache-airflow==2.1.2 --constraint https://raw.githubusercontent.com/apache/airflow/constraints-2.1.2/constraints-${MELTANO__PYTHON_VERSION}.txt
-  files:
-  - name: files-airflow
-    variant: meltano
-    pip_url: git+https://github.com/meltano/files-airflow.git
