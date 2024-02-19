@@ -4,14 +4,8 @@ import datetime
 import json
 import logging
 import os
-import psycopg2
 import sqlite3
-from airflow.models import DagBag
-
-dag_bag = DagBag(dag_folder="C:\\Users\\Vanessa\\Desktop\\code-challenge\\dags")
-
-# Checa se a DAG está carregada corretamente
-assert dag_bag.import_errors == {}, "DAG import falhou!"
+import psycopg2
 
 # Configuração do logger
 logging.basicConfig(level=logging.INFO, format='%(levelname)s - %(message)s')
@@ -57,6 +51,7 @@ class DataSaver:
         self.csv_data = []
         self.local_data = []
         self.current_working_date = None
+        self.db = DbInput(self)  # Inicializando a classe DbInput
 
     def load_saved_data_to_memory(self, date=""):
         try:
@@ -103,7 +98,7 @@ class DataSaver:
             os.makedirs(table_dir, exist_ok=True)
 
             # Constrói o caminho do arquivo
-            file_path = os.path.join(table_dir, table_name + ".json")  # Personalize o formato
+            file_path = os.path.join(table_dir, table_name + ".json")
             if category == "csv":
                 file_path = os.path.join(table_dir, "order_details.json")
 
