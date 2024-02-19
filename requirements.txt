@@ -3,3 +3,4 @@ charset-normalizer==3.3.2
 idna==3.6
 requests==2.31.0
 urllib3==2.2.0
+psycopg2==2.9.1
