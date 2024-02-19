@@ -44,4 +44,3 @@ verificar_existencia_arquivo = PythonOperator(
 
 # Defina as dependências da DAG
 verificar_existencia_arquivo >> executar_processamento
-
