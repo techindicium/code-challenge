@@ -2,5 +2,5 @@
 /shelf/
 /workspace.xml
 /.env
-/.myenv
+/.venv
 /.logs

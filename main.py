@@ -19,7 +19,7 @@ db_params = {
     "port": os.getenv("DB_PORT")
 }
 
-csv_file_path = os.getenv("CSV_FILE_PATH")
+csv_file_path = "code-challenge/data/order_details.csv"
 
 
 class DataSaver:
@@ -51,7 +51,8 @@ class DataSaver:
         self.csv_data = []
         self.local_data = []
         self.current_working_date = None
-        self.db = DbInput(self)  # Inicializando a classe DbInput
+        self.db = DbInput(self)
+        self.csv = CsvInput(self)
 
     def load_saved_data_to_memory(self, date=""):
         try:
