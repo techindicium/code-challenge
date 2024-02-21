@@ -1,30 +1,60 @@
-version: '3'
+version: '3.7'
 
 services:
-  db:
+  postgres_db:
     image: postgres:12
     environment:
       POSTGRES_DB: northwind
       POSTGRES_USER: northwind_user
       POSTGRES_PASSWORD: thewindisblowing
     volumes:
-      - ./dbdata:/var/lib/postgresql/data
-      - ./data/northwind.sql:/docker-entrypoint-initdb.d/northwind.sql
+      - type: bind
+        source: ./dbdata
+        target: /var/lib/postgresql/data
+      - type: bind
+        source: ./data/northwind.sql
+        target: /docker-entrypoint-initdb.d/northwind.sql
     ports:
-      - 5432:5432
+      - "5432:5432"
 
-  airflow:
-    image: apache/airflow:2.2.3
-    command: webserver
+  webserver_airflow:
+    image: apache/airflow:2.1.0
     environment:
-      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://northwind_user:thewindisblowing@db:5432/northwind
-      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
-    ports:
-      - "8080:8080"
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://northwind_user:thewindisblowing@postgres_db/northwind
+      AIRFLOW__CORE__FERNET_KEY: =hR-qxKZwIaxJyoUiNsQipQlemz_jou-0wwBIqi024jg=
+      AIRFLOW__CORE__LOAD_EXAMPLES: "False"
+      AIRFLOW_HOME: /opt/airflow
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs
       - ./plugins:/opt/airflow/plugins
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres_db
+    command: webserver
 
-volumes:
-  postgres_data:
+  scheduler_airflow:
+    image: apache/airflow:2.1.0
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://northwind_user:thewindisblowing@postgres_db/northwind
+      AIRFLOW__CORE__FERNET_KEY: =hR-qxKZwIaxJyoUiNsQipQlemz_jou-0wwBIqi024jg=
+      AIRFLOW__CORE__LOAD_EXAMPLES: "False"
+      AIRFLOW_HOME: /opt/airflow
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
+    depends_on:
+      - postgres_db
+    command: scheduler
+
+  data_processing:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./embulk:/workspace
+    command: tail -f /dev/null
