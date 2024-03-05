@@ -92,4 +92,4 @@ To run the data pipeline locally using Docker and Apache Airflow, follow these s
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
